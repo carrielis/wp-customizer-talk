@@ -10,7 +10,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
     <link rel="stylesheet" href="css/reveal.css">
-    <link rel="stylesheet" href="css/theme/black.css" id="theme">
+    <link rel="stylesheet" href="css/theme/dave.css" id="theme">
     <!-- Code syntax highlighting -->
     <link rel="stylesheet" href="lib/css/zenburn.css">
     <!-- Printing and PDF exports -->
@@ -22,29 +22,92 @@
         document.getElementsByTagName('head')[0].appendChild(link);
     </script>
     <!--[if lt IE 9]>
-		<script src="lib/js/html5shiv.js"></script>
-		<![endif]-->
+        <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
 </head>
 
 <body>
     <div class="reveal">
         <!-- Any section element inside of this container is displayed as a slide -->
         <div class="slides">
+            <!-- SLIDE ONE - PERSONAL INTRO -->
             <section>
-                <h1>Reveal.js</h1>
-                <h3>The HTML Presentation Framework</h3>
-                <p>
-                    <small>Created by <a href="http://hakim.se">Hakim El Hattab</a> / <a href="http://twitter.com/hakimel">@hakimel</a></small>
-                </p>
+                <h1>Dave Green</h1>
+                <h3>Front-end &amp; WordPress Developer at Make Do</h3>
+                <h4><a href="https://twitter.com/davetgreen">( @davetgreen )</a> <a href="http://davetgreen.me">( davetgreen.me )</a></h4>
             </section>
+            <!-- SLIDE 1 - TALK TITLE -->
             <section>
-                <h2>Hello There</h2>
-                <p>
-                    reveal.js enables you to create beautiful interactive slide decks using HTML. This presentation will show you examples of what it can do.
-                </p>
+                <h2>Building themes with the WP Customizer</h2>
             </section>
-            <!-- End of slides container -->
+            <!-- LESS LIKE MOGWAI -->
+            <section data-background="">
+                <h3>We'll go from feeling <br/>less like this...</h3>
+                <img src="img/mogwai.jpg" />
+            </section>
+            <!-- MORE LIKE MINION -->
+            <section data-background="">
+                <h3>To feeling a lot<br/> more like this...</h3>
+                <img src="img/minions.jpg" />
+            </section>
+            <!-- IN THE BEGINNING -->
+            <section>
+                <h2>In the beginning, we had theme options...</h2>
+                <img src="img/options-framework-screen.png" />
+            </section>
+            <!-- CUSTOMIZER API INTRO -->
+            <section>
+                <h2>Now, we have the Customizer API...</h2>
+                <img src="img/customizer-api-screen.png" />
+            </section>
+            <!-- CUSTOMIZER API SUMMARY -->
+            <section>
+                <h2>A brief summary of the Customizer API</h2>
+                <br/>
+                <ul>
+                    <li class="fragment">
+                        <p>Since <strong>WordPress 3.4</strong> which was released in <strong>June 2012</strong></p>
+                    </li>
+                    <li class="fragment">
+                        <p>Integrates with the existing <strong>WordPress Settings API</strong></p>
+                    </li>
+                    <li class="fragment">
+                        <p>No external dependencies because it is <strong>built into core</strong></p>
+                    </li>
+                    <li class="fragment">
+                        <p>Gives users <strong>instant feedback</strong> when they make changes</p>
+                    </li>
+                    <li class="fragment">
+                        <p>Can be <strong>extended</strong> by developers to add more features</p>
+                    </li>
+                </ul>
+            </section>
+            <!-- PREPARING THE THEME -->
+            <section>
+                <h2>Preparing the Theme</h2>
+                <section>
+                    <h3>Step #1</h3>
+                    <p>Create a subfolder in your theme called <strong><code>inc</code></strong> if you don’t already have one. In that folder, and create a file called <strong><code>customizer.php</code></strong>.</p>
+                    <pre><code class="no-highlight">your-theme/
+    inc/
+      customizer.php
+    js/
+    functions.php
+    index.php
+    style.css</code></pre>
+                </section>
+                <section>
+                    <h3>Step #2</h3>
+                    <p>Open <strong><code>customizer.php</code></strong> and add the following code to require the customizer file you just created:</p>
+                    <pre><code class="php">// Child Theme
+require get_stylesheet_directory() . '/inc/customizer.php';
+
+// Parent Theme
+require get_template_directory() . '/inc/customizer.php';</code></pre>
+                </section>
+            </section>
         </div>
+        <!-- End of slides container -->
     </div>
     <script src="lib/js/head.min.js"></script>
     <script src="js/reveal.js"></script>
@@ -52,12 +115,14 @@
         // Full list of configuration options available at:
         // https://github.com/hakimel/reveal.js#configuration
         Reveal.initialize({
+            width: 1200,
+            height: 800,
             controls: true,
             progress: true,
             history: true,
             center: true,
 
-            transition: 'slide', // none/fade/slide/convex/concave/zoom
+            transition: 'fade', // none/fade/slide/convex/concave/zoom
 
             // Optional reveal.js plugins
             dependencies: [{
