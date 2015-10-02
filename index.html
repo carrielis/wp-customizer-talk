@@ -33,12 +33,13 @@
             <!-- SLIDE ONE - PERSONAL INTRO -->
             <section>
                 <h1>Dave Green</h1>
-                <h3>Front-end &amp; WordPress Developer at Make Do</h3>
+                <h3>Front-end &amp; WordPress<br/>
+                Developer at Make Do</h3>
                 <h4><a href="https://twitter.com/davetgreen">( @davetgreen )</a> <a href="http://davetgreen.me">( davetgreen.me )</a></h4>
             </section>
             <!-- SLIDE 1 - TALK TITLE -->
             <section>
-                <h2>Building themes with the WP Customizer</h2>
+                <h2>Building themes with<br/> the WP Customizer</h2>
             </section>
             <!-- LESS LIKE MOGWAI -->
             <section data-background="">
@@ -322,10 +323,6 @@ $text = esc_html( get_theme_mod( 'wcmcr_welcome', 'Hello!' ) );</code></pre>
 add_action( 'customize_register', 'wcmcr_add_colour_picker' );</code></pre>
                 </section>
             </section>
-            <!-- LET'S HAVE A LOOK -->
-            <section>
-                <h2>Let's have a look...</h2>
-            </section>
             <!-- OUTPUT CSS -->
             <section>
                 <h2>Outputting the new CSS</h2>
@@ -352,6 +349,113 @@ add_action( 'wp_head', 'wcmcr_customize_css' );</code></pre>
             <!-- LET'S HAVE A LOOK -->
             <section>
                 <h2>Let's have a look...</h2>
+            </section>
+            <!-- LIVE PREVIEW WITH POSTMESSAGE -->
+            <section>
+                <h2>Live Preview with postMessage</h2>
+                <p>Setting the value of the <strong><code>transport</code></strong> argument to <strong><code>postMessage</code></strong> lets us update the live preview using Javascript instead of refreshing the iFrame.</p>
+                <pre><code class="php">$wp_customize->add_setting( 'wcmcr_phone_number',
+    array(
+        'default'    => '07890 123 456',
+        'capability' => 'manage_options',
+        'transport'  => 'postMessage', // BINGO!
+        'sanitize_callback' => 'wcmcr_validate'
+    )
+);</code></pre>
+            </section>
+            <!-- ADDING CUSTOMIZER.JS -->
+            <section>
+                <h2>Adding customizer JS</h2>
+                <p>If one doesn't exist in your theme, create a file called <strong><code>customizer.js</code></strong> in your theme's Javascript directory containing the following:</code>
+                    </strong>
+                    <pre><code class="javascript">( function( $ ) {
+
+    // Customizer JS goes here.
+
+} )( jQuery );
+</code></pre>
+                    <p>You now need to add a Javascript handler for every customizer setting you wish to use with the live preview feature.</p>
+            </section>
+            <section>
+                <h2>Adding a JS handler</h2>
+                <pre class="small"><code class="php">// Update the phone number.
+wp.customize( 'wpleeds_phone_number', function( value ) {
+
+    // Update the HTML value of the phone number element.
+    value.bind( function( newval ) {
+      $( '.phone-number' ).html( newval );
+    } );
+
+} );</code></pre>
+            </section>
+            <section>
+                <h2>Adding a JS handler</h2>
+                <pre class="small"><code class="php">// Previous handler to update phone number.
+
+// Update the site title colour.
+wp.customize( 'wcmcr_title_colour', function( value ) {
+
+    // Change the colour of the title elment.
+    value.bind( function( newval ) {
+      $( '.site-title a' ).css( 'color' , newval );
+    } );
+
+} );</code></pre>
+            </section>
+            <!-- ENQUEUEING THE CUSTOMIZER JS -->
+            <section>
+                <h2>Enqueue the customizer JS</h2>
+                <p>In order for our new Javascript handlers to work, we must enqueue our new <strong><code>customizer.js</code></strong> file, the WordPress way.</p>
+                <pre class="small"><code class="php">function wcmcr_customizer_js() {
+
+    wp_enqueue_script(
+        'wcmcr-customizer-js',
+        get_stylesheet_directory_uri().'/js/customizer.js',
+        array( 'jquery','customize-preview' ),
+        '',
+        true // In the footer!
+    );
+
+}
+add_action('customize_preview_init', 'wcmcr_customizer_js');</code></pre>
+            </section>
+            <!-- LET'S HAVE A LOOK -->
+            <section>
+                <h2>Let's have a look...</h2>
+            </section>
+            <!-- SUCCESS -->
+            <section>
+                <img src="img/success-kid.jpg" />
+            </section>
+            <!-- MODIFYING SETTINGS, PANELS, SECTIONS AND CONTROLS -->
+            <section>
+                <h2>Customizer Modifications</h2>
+                <p>Use the <strong><code>get_xxx</code></strong> methods to modify the properties of a given
+                    <br/> setting, panel, section or control.</p>
+                <pre class="small"><code class="php">$wp_customize->get_setting( 'wcmcr_phone_number' )->default =
+'999';
+
+$wp_customize->get_panel( 'wcmcr_panel' )->description =
+'Stop! Panel Time!';
+
+$wp_customize->get_section( 'wcmcr_section' )->title =
+'WCMCR ROCKS!';
+
+$wp_customize->get_control( 'wcmcr_phone_number' )->label =
+'Telephone';</code></pre>
+            </section>
+            <!-- REMOVING -->
+            <section>
+                <h2>Removing items from<br/> the Customizer</h2>
+                <p>Anything that exists in the customizer - including default options - can be removed by using the <strong><code>remove_xxx</code></strong> methods.</p>
+                <pre class="small"><code class="php">$wp_customize->remove_panel( 'wcmcr_panel' );
+
+$wp_customize->remove_section( 'header_image' );
+$wp_customize->remove_section( 'background_image' );
+
+$wp_customize->remove_control( 'background_color' );
+$wp_customize->remove_control( 'header_background_color' );
+$wp_customize->remove_control( 'sidebar_textcolor' );</code></pre>
             </section>
         </div>
         <!-- End of slides container -->
