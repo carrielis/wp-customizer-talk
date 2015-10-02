@@ -35,7 +35,7 @@
                 <h1>Dave Green</h1>
                 <h3>Front-end &amp; WordPress<br/>
                 Developer at Make Do</h3>
-                <h4><a href="https://twitter.com/davetgreen">( @davetgreen )</a> <a href="http://davetgreen.me">( davetgreen.me )</a></h4>
+                <h3><a href="https://twitter.com/davetgreen">( @davetgreen )</a></h33>
             </section>
             <!-- SLIDE 1 - TALK TITLE -->
             <section>
@@ -43,7 +43,7 @@
             </section>
             <!-- LESS LIKE MOGWAI -->
             <section data-background="">
-                <h3>We'll go from feeling <br/>less like this...</h3>
+                <h3>You'll go from feeling <br/>less like this...</h3>
                 <img src="img/mogwai.jpg" />
             </section>
             <!-- MORE LIKE MINION -->
@@ -127,7 +127,7 @@ add_action( 'customize_register', 'wcmcr_customize' );</code></pre>
             <!-- WP CUSTOMIZE OBJECT -->
             <section>
                 <h2>The WP Customize Object</h2>
-                <p>There are twelve <strong><code>$wpcustomize</code></strong> methods available for you to use. You'll use the <strong><code>add_</code></strong> methods the most when working with the Customizer API.</p>
+                <p>There are twelve <strong><code>$wpcustomize</code></strong> methods available for you to use. You'll use the <strong><code>add_xxx</code></strong> methods the most when working with the Customizer.</p>
                 <br/>
                 <table>
                     <thead>
@@ -166,6 +166,7 @@ add_action( 'customize_register', 'wcmcr_customize' );</code></pre>
                 <p>The value of the customizer setting will be stored in the database and can be retrieved, updated and deleted.</p>
                 <pre><code class="php">$wp_customize->add_setting( 'wcmcr_phone_number',
     array(
+        'type'       => 'theme_mod', // OR 'option'
         'default'    => '07890 123 456',
         'capability' => 'manage_options',
         'theme-supports' => '',
@@ -173,6 +174,11 @@ add_action( 'customize_register', 'wcmcr_customize' );</code></pre>
         'sanitize_callback' => 'wcmcr_validate'
     )
 );</code></pre>
+            </section>
+            <!-- THEME MOD VERSUS OPTION -->
+            <section>
+                <h2>Theme Mod versus Option</h2>
+                <p>Brief summary of the difference...</p>
             </section>
             <!-- VALIDATING SETTING DATA -->
             <section>
@@ -212,7 +218,6 @@ function wcmcr_validate( $data ) {
         'capability'     => 'manage_options',
         'theme-supports' => '',
         'priority'       => '10'
-
     )
 );</code></pre>
             </section>
@@ -229,7 +234,22 @@ function wcmcr_validate( $data ) {
             'settings' => 'wcmcr_phone_number',
             'type'     => 'text',
             'priority' => 10,
-            'active_callback' => 'is_front_page' // new!
+            'active_callback' => 'is_front_page' // NEW!
+        )
+    )
+);</code></pre>
+            </section>
+            <!-- ADDING CONTROLS TO EXISTING SECTIONS -->
+            <section>
+                <h2>Adding a control to an existing section</h2>
+                <pre><code class="php">$wp_customize->add_control(
+    new WP_Customize__Control(
+        $wp_customize,
+        'wcmcr_intro_text',
+        array(
+            'label'    => 'Introductory Text',
+            'section'  => 'title_tagline', // BINGO!
+            'settings' => 'wcmcr_intro_text'
         )
     )
 );</code></pre>
@@ -249,10 +269,10 @@ function wcmcr_validate( $data ) {
                         <p><strong><code>WP_Customize_Image_Control</code></strong></p>
                     </li>
                     <li class="fragment">
-                        <p><strong><code>WP_Customize_Cropped_Image_Control (New!)</code></strong></p>
+                        <p><strong><code>WP_Customize_Cropped_Image_Control (NEW!)</code></strong></p>
                     </li>
                     <li class="fragment">
-                        <p><strong><code>WP_Customize_Media_Control (New!)</code></strong></p>
+                        <p><strong><code>WP_Customize_Media_Control (NEW!)</code></strong></p>
                     </li>
                     <li class="fragment">
                         <p><strong><code>WP_Customize_Background_Image_Control</code></strong></p>
@@ -264,19 +284,21 @@ function wcmcr_validate( $data ) {
             </section>
             <!-- DISPLAYING OPTIONS WITH GET_THEME_MOD -->
             <section>
-                <h2>Use your setting with get_theme_mod</h2>
-                <p>The function <strong><code>get_theme_mod()</code></strong> is used to retrieve a customizer
-                    <br/> setting value from the database for use in your theme.</p>
+                <h2>Getting a setting value</h2>
+                <p>The function <strong><code>get_theme_mod()</code></strong> is used to retrieve your customizer
+                    <br/> setting's value from the database for use in your theme.</p>
                 <pre class="small"><code class="php">// You should escape the string before you use it.
 echo esc_html( get_theme_mod( 'wcmcr_welcome' ) );
 
 // You can add a fall back value which will override
 // the setting's default value if it exists.
 $text = esc_html( get_theme_mod( 'wcmcr_welcome', 'Hello!' ) );</code></pre>
+                <p>SOMETHING ABOUT GET_OPTION!!!</p>
             </section>
             <!-- LET'S HAVE A LOOK -->
             <section>
                 <h2>Let's have a look...</h2>
+                <p>Pending pre-recorded video/animated gif...</p>
             </section>
             <!-- ADDING A COLOUR PICKER -->
             <section>
@@ -286,13 +308,13 @@ $text = esc_html( get_theme_mod( 'wcmcr_welcome', 'Hello!' ) );</code></pre>
                     <pre><code class="php">function wcmcr_add_colour_picker( $wpcustomize ) {
     // Let's change the title colour.
     $wp_customize->add_setting( 'wcmcr_title_colour',
-    array(
-        'default'    => '#000',
-        'capability' => 'manage_options',
-        'transport'  => 'postMessage'
-        'priority'   => 10
-    )
-);</code></pre>
+        array(
+            'default'    => '#000',
+            'capability' => 'manage_options',
+            'transport'  => 'postMessage'
+            'priority'   => 10
+        )
+    );</code></pre>
                 </section>
                 <section>
                     <pre><code class="php">$wp_customize->add_section( 'wcmcr_section_colour',
@@ -328,7 +350,7 @@ add_action( 'customize_register', 'wcmcr_add_colour_picker' );</code></pre>
                 <h2>Outputting the new CSS</h2>
                 <section>
                     <p>Now that we've chosen a new colour for the target elements, we need to ensure that we're generating this new CSS on the front-end.</p>
-                    <p>In order to do this, we need to hook into the <strong><code>wp_head</code></strong> action.</p>
+                    <p>In order to do this, we need to hook into the <strong><code>wp_head</code></strong> action using a function added to our <strong><code>customizer.php</code></strong> file.</p>
                 </section>
                 <section>
                     <pre class="small"><code class="php">function wcmcr_customize_css() {
@@ -349,11 +371,12 @@ add_action( 'wp_head', 'wcmcr_customize_css' );</code></pre>
             <!-- LET'S HAVE A LOOK -->
             <section>
                 <h2>Let's have a look...</h2>
+                <p>Pending pre-recorded video/animated gif...</p>
             </section>
             <!-- LIVE PREVIEW WITH POSTMESSAGE -->
             <section>
                 <h2>Live Preview with postMessage</h2>
-                <p>Setting the value of the <strong><code>transport</code></strong> argument to <strong><code>postMessage</code></strong> lets us update the live preview using Javascript instead of refreshing the iFrame.</p>
+                <p>Changing the the <strong><code>transport</code></strong> argument from <strong><code>refresh</code></strong> to <strong><code>postMessage</code></strong> updates the live preview using Javascript instead of refreshing the iFrame.</p>
                 <pre><code class="php">$wp_customize->add_setting( 'wcmcr_phone_number',
     array(
         'default'    => '07890 123 456',
@@ -374,7 +397,8 @@ add_action( 'wp_head', 'wcmcr_customize_css' );</code></pre>
 
 } )( jQuery );
 </code></pre>
-                    <p>You now need to add a Javascript handler for every customizer setting you wish to use with the live preview feature.</p>
+                    <p>Now you need to add a Javascript handler for every customizer setting
+                        <br/> you wish to use with the live preview feature.</p>
             </section>
             <section>
                 <h2>Adding a JS handler</h2>
@@ -422,14 +446,21 @@ add_action('customize_preview_init', 'wcmcr_customizer_js');</code></pre>
             <!-- LET'S HAVE A LOOK -->
             <section>
                 <h2>Let's have a look...</h2>
+                <p>Pending pre-recorded video/animated gif...</p>
             </section>
             <!-- SUCCESS -->
             <section>
                 <img src="img/success-kid.jpg" />
             </section>
+            <!-- HERE'S ONE I MADE EARLIER -->
+            <section>
+                <h2>Here's one I made earlier</h2>
+                <p>Pending pre-recorded video/animated gif of some
+                    <br/> extreme changes using the customizer...</p>
+            </section>
             <!-- MODIFYING SETTINGS, PANELS, SECTIONS AND CONTROLS -->
             <section>
-                <h2>Customizer Modifications</h2>
+                <h2>Modifying items in the Customizer object</h2>
                 <p>Use the <strong><code>get_xxx</code></strong> methods to modify the properties of a given
                     <br/> setting, panel, section or control.</p>
                 <pre class="small"><code class="php">$wp_customize->get_setting( 'wcmcr_phone_number' )->default =
@@ -444,9 +475,9 @@ $wp_customize->get_section( 'wcmcr_section' )->title =
 $wp_customize->get_control( 'wcmcr_phone_number' )->label =
 'Telephone';</code></pre>
             </section>
-            <!-- REMOVING -->
+            <!-- REMOVING ITEMS FROM THE CUSTOMIZER-->
             <section>
-                <h2>Removing items from<br/> the Customizer</h2>
+                <h2>Removing items from<br/> the Customizer object</h2>
                 <p>Anything that exists in the customizer - including default options - can be removed by using the <strong><code>remove_xxx</code></strong> methods.</p>
                 <pre class="small"><code class="php">$wp_customize->remove_panel( 'wcmcr_panel' );
 
@@ -457,11 +488,47 @@ $wp_customize->remove_control( 'background_color' );
 $wp_customize->remove_control( 'header_background_color' );
 $wp_customize->remove_control( 'sidebar_textcolor' );</code></pre>
             </section>
+            <!-- THE FUTURE OF CUSTOMIZER -->
+            <section>
+                <h2>The future of the Customizer API</h2>
+                <p>Pending several bullet points...</p>
+            </section>
+            <!-- YOU SHOULD TAKE A LOOK AT -->
+            <section>
+                <h2>YOU SHOULD TAKE A LOOK AT...</h2>
+                <ul>
+                    <li class="fragment">
+                        <p>WordPressCodex: Theme Customization API
+                            <br/> <a href="https://codex.wordpress.org/Theme_Customization_API"><small>https://codex.wordpress.org/Theme_Customization_API</small></a></p>
+                    </li>
+                    <li class="fragment">
+                        <p>WordPress Theme Handbook: Theme Options – The Customizer API
+                            <br/> <a href="https://developer.wordpress.org/themes/advanced-topics/customizer-api/"><small>https://developer.wordpress.org/themes/advanced-topics/customizer-api/</small></a></p>
+                    </li>
+                    <li class="fragment">
+                        <p>Paul Underwood: WordPress Theme Customizer Custom Controls
+                            <br/> <a href="http://www.paulund.co.uk/custom-wordpress-controls"><small>http://www.paulund.co.uk/custom-wordpress-controls</small></a>
+                            <br/> <a href="https://github.com/paulund/wordpress-theme-customizer-custom-controls"><small>https://github.com/paulund/wordpress-theme-customizer-custom-controls</small></a></p>
+                    </li>
+                    <li class="fragment">Devin Price - Customizer Library
+                        <br/> <a href="http://wptheming.com/2014/08/customizer-library/"><small>http://wptheming.com/2014/08/customizer-library/</small></a>
+                        <br/> <a href="https://github.com/devinsays/customizer-library"><small>https://github.com/devinsays/customizer-library</small></a>
+                    </li>
+                </ul>
+            </section>
+            <!-- THANK YOU! -->
+            <section>
+                <h1>THANK YOU!</h1>
+                <h2>Slides available at</h2>
+                <h3 style="margin-bottom: 0;"><strong><a href=" http://davetgreen.me/customizer-talk/ ">davetgreen.me/customizer-talk</strong></a></h3>
+                <h3><strong><a href="http://speakerdeck.com/davetgreen ">speakerdeck.com/davetgreen</strong></a></h3>
+                <h3><a href="https://twitter.com/davetgreen ">( @davetgreen )</a></h4>
+            </section>
         </div>
         <!-- End of slides container -->
     </div>
-    <script src="lib/js/head.min.js"></script>
-    <script src="js/reveal.js"></script>
+    <script src="lib/js/head.min.js "></script>
+    <script src="js/reveal.js "></script>
     <script>
         // Full list of configuration options available at:
         // https://github.com/hakimel/reveal.js#configuration
@@ -470,6 +537,7 @@ $wp_customize->remove_control( 'sidebar_textcolor' );</code></pre>
             height: 800,
             controls: true,
             progress: true,
+            slideNumber: true,
             history: true,
             center: true,
 
