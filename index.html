@@ -63,7 +63,6 @@
             <!-- CUSTOMIZER API SUMMARY -->
             <section>
                 <h2>A brief summary of the Customizer API</h2>
-                <br/>
                 <ul>
                     <li class="fragment">
                         <p>Since <strong>WordPress 3.4</strong> which was released in <strong>June 2012</strong></p>
@@ -85,8 +84,11 @@
             <!-- PREPARING THE THEME -->
             <section>
                 <h2>Preparing the Theme</h2>
+            </section>
+            <!-- PREPARING THE THEME - STEPS -->
+            <section>
                 <section>
-                    <h3>Step #1</h3>
+                    <h3>Preparing the theme - Step #1</h3>
                     <p>Create a subfolder in your theme called <strong><code>inc</code></strong> if you don’t already have one. In that folder, and create a file called <strong><code>customizer.php</code></strong>.</p>
                     <pre><code class="no-highlight">your-theme/
     inc/
@@ -97,14 +99,259 @@
     style.css</code></pre>
                 </section>
                 <section>
-                    <h3>Step #2</h3>
-                    <p>Open <strong><code>customizer.php</code></strong> and add the following code to require the customizer file you just created:</p>
+                    <h3>Preparing the theme - Step #2</h3>
+                    <p>Open <strong><code>functions.php</code></strong> and add the relevant line of code to require the file you just created. Without it, your customizer code won't run!</p>
                     <pre><code class="php">// Child Theme
 require get_stylesheet_directory() . '/inc/customizer.php';
 
 // Parent Theme
-require get_template_directory() . '/inc/customizer.php';</code></pre>
+require get_template_directory() . '/inc/customizer.php';
+
+// Rest of your functions file...</code></pre>
                 </section>
+            </section>
+            <!-- CUSTOMIZE REGISTER ACTION HOOK -->
+            <section>
+                <h2>The customize_register action hook</h2>
+                <p>All of your customizer code needs be contained inside one or more functions that are hooked into this action in order for it to be executed.</p>
+                <pre><code class="php">function wcmcr_customize( $wp_customize ) {
+
+    // Define settings, panels, sections and controls
+    // inside this function or multiple functions using
+    // the same action hook.
+
+}
+add_action( 'customize_register', 'wcmcr_customize' );</code></pre>
+            </section>
+            <!-- WP CUSTOMIZE OBJECT -->
+            <section>
+                <h2>The WP Customize Object</h2>
+                <p>There are twelve <strong><code>$wpcustomize</code></strong> methods available for you to use. You'll use the <strong><code>add_</code></strong> methods the most when working with the Customizer API.</p>
+                <br/>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Settings</th>
+                            <th>Panels</th>
+                            <th>Sections</th>
+                            <th>Controls</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>add_setting</td>
+                            <td>add_panel</td>
+                            <td>add_section</td>
+                            <td>add_control</td>
+                        </tr>
+                        <tr>
+                            <td>get_setting</td>
+                            <td>get_panel</td>
+                            <td>get_section</td>
+                            <td>get_control</td>
+                        </tr>
+                        <tr>
+                            <td>remove_setting</td>
+                            <td>remove_panel</td>
+                            <td>remove_section</td>
+                            <td>remove_control</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+            <!-- ADD A SETTING -->
+            <section>
+                <h2>Adding a setting</h2>
+                <p>The value of the customizer setting will be stored in the database and can be retrieved, updated and deleted.</p>
+                <pre><code class="php">$wp_customize->add_setting( 'wcmcr_phone_number',
+    array(
+        'default'    => '07890 123 456',
+        'capability' => 'manage_options',
+        'theme-supports' => '',
+        'transport'  => 'postMessage',
+        'sanitize_callback' => 'wcmcr_validate'
+    )
+);</code></pre>
+            </section>
+            <!-- VALIDATING SETTING DATA -->
+            <section>
+                <h2>Validating Setting Data</h2>
+                <p>Here we use a simple regular expression to ensure our number setting contains only numbers: no letters or special characters.</p>
+                <pre><code class="php">// Add to the top/bottom of customizer.php.
+function wcmcr_validate( $data ) {
+
+  $sanitized = preg_replace( '/[^0-9 ]+/', '', $data );
+
+  return $sanitized;
+}</code></pre>
+            </section>
+            <!-- ADDING A SECTION -->
+            <section>
+                <h2>Adding a section</h2>
+                <p>A section is a container for customizer controls that can be grouped under a similar theme e.g. colour scheme, branding etc.</p>
+                <pre><code class="php">$wp_customize->add_section( 'wcmcr_section',
+    array(
+        'title'          => 'WCMCR Section,
+        'description'    => 'Section for WCMCR',
+        'capability'     => 'manage_options',
+        'theme-supports' => '',
+        'priority'       => '10',
+        'panel'          => 'wpmcr_panel'
+    )
+);</code></pre>
+            </section>
+            <!-- ADDING A PANEL -->
+            <section>
+                <h2>Adding a panel</h2>
+                <p>A panel is a container for customizer sections, and is useful if you have multiple sections that can grouped under a similar theme.</p>
+                <pre><code class="php">$wp_customize->add_panel( 'wcmcr_panel',
+    array(
+        'title'          => 'WCMCR Panel,
+        'description'    => 'Panel for WCMCR',
+        'capability'     => 'manage_options',
+        'theme-supports' => '',
+        'priority'       => '10'
+
+    )
+);</code></pre>
+            </section>
+            <!-- ADDING A CONTROL -->
+            <section>
+                <h2>Adding a control</h2>
+                <p>A control is an element that the user can interact with to make a change such as a text field, colour picker or image uploader etc.</p>
+                <pre class="small"><code class="php">$wp_customize->add_control(
+    new WP_Customize_Control(
+        $wp_customize, 'wcmcr_phone_number',
+        array(
+            'label'    => 'Phone Number',
+            'section'  => 'wcmcr_section',
+            'settings' => 'wcmcr_phone_number',
+            'type'     => 'text',
+            'priority' => 10,
+            'active_callback' => 'is_front_page' // new!
+        )
+    )
+);</code></pre>
+            </section>
+            <!-- ADDITIONAL CONTROL TYPES -->
+            <section>
+                <h2>Additional Control Types</h2>
+                <p>In addition to <strong><code>WP_Customize_Control</code></strong> used for elements such as text fields and drop downs, several other control types are available.</p>
+                <ul>
+                    <li class="fragment">
+                        <p><strong><code>WP_Customize_Color_Control</code></strong></p>
+                    </li>
+                    <li class="fragment">
+                        <p><strong><code>WP_Customize_Upload_Control</code></strong></p>
+                    </li>
+                    <li class="fragment">
+                        <p><strong><code>WP_Customize_Image_Control</code></strong></p>
+                    </li>
+                    <li class="fragment">
+                        <p><strong><code>WP_Customize_Cropped_Image_Control (New!)</code></strong></p>
+                    </li>
+                    <li class="fragment">
+                        <p><strong><code>WP_Customize_Media_Control (New!)</code></strong></p>
+                    </li>
+                    <li class="fragment">
+                        <p><strong><code>WP_Customize_Background_Image_Control</code></strong></p>
+                    </li>
+                    <li class="fragment">
+                        <p><strong><code>WP_Customize_Header_Image_Control</code></strong></p>
+                    </li>
+                </ul>
+            </section>
+            <!-- DISPLAYING OPTIONS WITH GET_THEME_MOD -->
+            <section>
+                <h2>Use your setting with get_theme_mod</h2>
+                <p>The function <strong><code>get_theme_mod()</code></strong> is used to retrieve a customizer
+                    <br/> setting value from the database for use in your theme.</p>
+                <pre class="small"><code class="php">// You should escape the string before you use it.
+echo esc_html( get_theme_mod( 'wcmcr_welcome' ) );
+
+// You can add a fall back value which will override
+// the setting's default value if it exists.
+$text = esc_html( get_theme_mod( 'wcmcr_welcome', 'Hello!' ) );</code></pre>
+            </section>
+            <!-- LET'S HAVE A LOOK -->
+            <section>
+                <h2>Let's have a look...</h2>
+            </section>
+            <!-- ADDING A COLOUR PICKER -->
+            <section>
+                <h2>Adding a colour picker</h2>
+                <br/>
+                <section>
+                    <pre><code class="php">function wcmcr_add_colour_picker( $wpcustomize ) {
+    // Let's change the title colour.
+    $wp_customize->add_setting( 'wcmcr_title_colour',
+    array(
+        'default'    => '#000',
+        'capability' => 'manage_options',
+        'transport'  => 'postMessage'
+        'priority'   => 10
+    )
+);</code></pre>
+                </section>
+                <section>
+                    <pre><code class="php">$wp_customize->add_section( 'wcmcr_section_colour',
+    array(
+        'title'          => 'Colour Options,
+        'description'    => 'Colour options for WCMCR',
+        'capability'     => 'manage_options',
+        'priority'       => '10',
+    )
+);</code></pre>
+                </section>
+                <section>
+                    <pre><code class="php">$wp_customize->add_control(
+    new WP_Customize_Color_Control(
+        $wp_customize,
+        'wcmcr_title_colour',
+        array(
+            'label'    => 'Title Colour',
+            'section'  => 'wcmcr_section_colour',
+            'settings' => 'wcmcr_title_colour'
+        )
+    )
+);
+</code></pre>
+                </section>
+                <section>
+                    <pre class="small"><code class="php">}
+add_action( 'customize_register', 'wcmcr_add_colour_picker' );</code></pre>
+                </section>
+            </section>
+            <!-- LET'S HAVE A LOOK -->
+            <section>
+                <h2>Let's have a look...</h2>
+            </section>
+            <!-- OUTPUT CSS -->
+            <section>
+                <h2>Outputting the new CSS</h2>
+                <section>
+                    <p>Now that we've chosen a new colour for the target elements, we need to ensure that we're generating this new CSS on the front-end.</p>
+                    <p>In order to do this, we need to hook into the <strong><code>wp_head</code></strong> action.</p>
+                </section>
+                <section>
+                    <pre class="small"><code class="php">function wcmcr_customize_css() {
+  ? >
+
+  <style type="text/css">
+    .site-title a {
+      color: <?php echo get_theme_mod('wcmcr_title_colour'); ?>;
+    }
+    /** Repeat for every element/selector you're targeting. **/
+  </style>
+
+  < ?php
+}
+add_action( 'wp_head', 'wcmcr_customize_css' );</code></pre>
+                </section>
+            </section>
+            <!-- LET'S HAVE A LOOK -->
+            <section>
+                <h2>Let's have a look...</h2>
             </section>
         </div>
         <!-- End of slides container -->
