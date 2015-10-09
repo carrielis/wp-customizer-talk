@@ -12,7 +12,9 @@
     <link rel="stylesheet" href="css/reveal.css">
     <link rel="stylesheet" href="css/theme/dave.css" id="theme">
     <!-- Code syntax highlighting -->
-    <link rel="stylesheet" href="lib/css/zenburn.css">
+    <!-- <link rel="stylesheet" href="lib/css/monokai_sublime.css">
+ -->
+    <link rel="stylesheet" href="lib/css/tomorrow-night-bright.css">
     <!-- Printing and PDF exports -->
     <script>
         var link = document.createElement('link');
@@ -35,20 +37,20 @@
                 <h1>Dave Green</h1>
                 <h3>Front-end &amp; WordPress<br/>
                 Developer at Make Do</h3>
-                <h3><a href="https://twitter.com/davetgreen">@davetgreen</a></h33>
+                <h3><a href="https://twitter.com/davetgreen">@davetgreen</a></h3>
             </section>
             <!-- SLIDE 1 - TALK TITLE -->
             <section>
-                <h2>Building themes with<br/> the WP Customizer</h2>
+                <h2>Building themes with<br/> the WP Customizer API</h2>
             </section>
             <!-- LESS LIKE MOGWAI -->
             <section data-background="">
-                <h3>You'll go from feeling <br/>less like this...</h3>
+                <h3>You'll be less like this...</h3>
                 <img src="img/mogwai.jpg" />
             </section>
             <!-- MORE LIKE MINION -->
             <section data-background="">
-                <h3>To feeling a lot<br/> more like this...</h3>
+                <h3>And more like this...</h3>
                 <img src="img/minions.jpg" />
             </section>
             <!-- IN THE BEGINNING -->
@@ -78,7 +80,7 @@
                         <p>Gives users <strong>instant feedback</strong> when they make changes</p>
                     </li>
                     <li class="fragment">
-                        <p>Can be <strong>extended</strong> by developers to add more features</p>
+                        <p>Can be <strong>extended</strong> to add more customisation options</p>
                     </li>
                 </ul>
             </section>
@@ -90,7 +92,7 @@
             <section>
                 <section>
                     <h3>Preparing the theme - Step #1</h3>
-                    <p>Create a subfolder in your theme called <strong><code>inc</code></strong> if you don’t already have one. In that folder, and create a file called <strong><code>customizer.php</code></strong>.</p>
+                    <p>Create a subfolder in your theme called <strong><code>inc</code></strong> if you don’t already have one. Now create a file in that folder called <strong><code>customizer.php</code></strong>.</p>
                     <pre><code class="no-highlight">your-theme/
     inc/
       customizer.php
@@ -101,8 +103,8 @@
                 </section>
                 <section>
                     <h3>Preparing the theme - Step #2</h3>
-                    <p>Open <strong><code>functions.php</code></strong> and add the relevant line of code to require the file you just created. Without it, your customizer code won't run!</p>
-                    <pre><code class="php">// Child Theme
+                    <p>Open <strong><code>functions.php</code></strong> and add the relevant line of code to require the file you just created. Without it, your customizer code won't execute!</p>
+                    <pre class="small"><code class="php">// Child Theme
 require get_stylesheet_directory() . '/inc/customizer.php';
 
 // Parent Theme
@@ -114,7 +116,7 @@ require get_template_directory() . '/inc/customizer.php';
             <!-- CUSTOMIZE REGISTER ACTION HOOK -->
             <section>
                 <h2>The customize_register action hook</h2>
-                <p>All of your customizer code needs be contained inside one or more functions that are hooked into this action in order for it to be executed.</p>
+                <p>All of your customizer code needs be contained inside one or more functions that are hooked into this action, or it won't be executed.</p>
                 <pre><code class="php">function wcmcr_customize( $wp_customize ) {
     // Define settings, panels, sections and controls
     // inside this function or multiple functions using
@@ -125,7 +127,7 @@ add_action( 'customize_register', 'wcmcr_customize' );</code></pre>
             <!-- WP CUSTOMIZE OBJECT -->
             <section>
                 <h2>The WP Customize Object</h2>
-                <p>There are eleven <strong><code>$wpcustomize</code></strong> methods available for you to use. You'll use the <strong><code>add_xxx</code></strong> methods the most when working with the Customizer.</p>
+                <p>There are eleven <strong><code>$wpcustomize</code></strong> methods available for you to use. You'll mostly be using the <strong><code>add_</code></strong> methods when working with the Customizer.</p>
                 <br/>
                 <table>
                     <thead>
@@ -158,10 +160,10 @@ add_action( 'customize_register', 'wcmcr_customize' );</code></pre>
                     </tbody>
                 </table>
             </section>
-            <!-- ADD A SETTING -->
+            <!-- ADDING A SETTING -->
             <section>
                 <h2>Adding a setting</h2>
-                <p>The value of the customizer setting will be stored in the database and can be retrieved, updated and deleted.</p>
+                <p>Customizer settings are responsible for saving the user's changes and sanitizing the data, as well as facilitating the 'live preview' feature.</p>
                 <pre><code class="php">$wp_customize->add_setting( 'wcmcr_phone_number',
     array(
         'type'       => 'theme_mod', // OR 'option'
@@ -175,8 +177,16 @@ add_action( 'customize_register', 'wcmcr_customize' );</code></pre>
             <!-- THEME MOD VERSUS OPTION -->
             <section>
                 <h2>Theme Mod versus Option</h2>
-                <p class="fragment">A theme modification or "mod" is used to store a theme specific setting which will </p>
-                <p class="fragment"></p>
+                <div class="fragment" style="float: left; text-align: left; width: 49%;">
+                    <h3><strong>Theme Mod</strong></h3>
+                    <p>Settings can only be used by that specific theme. Recommended.</p>
+                    <p>All customizer settings are stored as a single option in the database, containing a serialized array.</p>
+                </div>
+                <div class="fragment" style="float: left; padding-left: 2%; text-align: left; width: 49%;">
+                    <h3><strong>Option</strong></h3>
+                    <p>Settings can be used by absolutely any theme or plugin.</p>
+                    <p>Each of the customizer settings are stored as a unique option in the database.</p>
+                </div>
             </section>
             <!-- VALIDATING SETTING DATA -->
             <section>
@@ -196,7 +206,7 @@ function wcmcr_validate( $data ) {
                 <p>A section is a container for customizer controls that can be grouped under a similar theme e.g. colour scheme, branding etc.</p>
                 <pre><code class="php">$wp_customize->add_section( 'wcmcr_section',
     array(
-        'title'          => 'WCMCR Section,
+        'title'          => 'WCMCR Section',
         'description'    => 'Section for WCMCR',
         'capability'     => 'manage_options',
         'theme-supports' => '',
@@ -208,10 +218,10 @@ function wcmcr_validate( $data ) {
             <!-- ADDING A PANEL -->
             <section>
                 <h2>Adding a panel</h2>
-                <p>A panel is a container for customizer sections, and is useful if you have multiple sections that can grouped under a similar theme.</p>
+                <p>A panel is a UI container for customizer sections, and is useful if you have multiple sections that can grouped under a similar theme.</p>
                 <pre><code class="php">$wp_customize->add_panel( 'wcmcr_panel',
     array(
-        'title'          => 'WCMCR Panel,
+        'title'          => 'WCMCR Panel',
         'description'    => 'Panel for WCMCR',
         'capability'     => 'manage_options',
         'theme-supports' => '',
@@ -222,7 +232,7 @@ function wcmcr_validate( $data ) {
             <!-- ADDING A CONTROL -->
             <section>
                 <h2>Adding a control</h2>
-                <p>A control is an element that the user can interact with to make a change such as a text field, colour picker or image uploader etc.</p>
+                <p>A control is a UI element such as a text field, colour picker or image uploader which the user interacts with to update a setting.</p>
                 <pre class="small"><code class="php">$wp_customize->add_control(
     new WP_Customize_Control(
         $wp_customize, 'wcmcr_phone_number',
@@ -255,7 +265,7 @@ function wcmcr_validate( $data ) {
             <!-- ADDITIONAL CONTROL TYPES -->
             <section>
                 <h2>Additional Control Types</h2>
-                <p>In addition to <strong><code>WP_Customize_Control</code></strong> used for elements such as text fields and drop downs, several other control types are available.</p>
+                <p>In addition to the <strong><code>WP_Customize_Control</code></strong> class that is used for standard HTML form elements, classes for several other control types are available.</p>
                 <ul>
                     <li class="fragment">
                         <p><strong><code>WP_Customize_Color_Control</code></strong></p>
@@ -286,12 +296,12 @@ function wcmcr_validate( $data ) {
                 <p>The function <strong><code>get_theme_mod()</code></strong> is used to retrieve your customizer
                     <br/> setting's value from the database for use in your theme.</p>
                 <pre class="small"><code class="php">// You should escape the string before you use it.
-echo esc_html( get_theme_mod( 'wcmcr_welcome' ) );
+esc_html_e( get_theme_mod( 'wcmcr_welcome' ) );
 
 // You can add a fall back value which will override
 // the setting's default value if it exists.
 $text = esc_html( get_theme_mod( 'wcmcr_welcome', 'Hello!' ) );</code></pre>
-                <p>SOMETHING ABOUT GET_OPTION!!!</p>
+                <p>If you've elected to register the setting as an <strong><code>option</code></strong>, you'll need to retrieve it by using the <strong><code>get_option</code></strong> function instead.</p>
             </section>
             <!-- LET'S HAVE A LOOK -->
             <section>
@@ -301,10 +311,11 @@ $text = esc_html( get_theme_mod( 'wcmcr_welcome', 'Hello!' ) );</code></pre>
             <!-- ADDING A COLOUR PICKER -->
             <section>
                 <h2>Adding a colour picker</h2>
-                <br/>
+                <section>
+                    <p>Let's add a colour picker to change the colour of the site title.</p>
+                </section>
                 <section>
                     <pre><code class="php">function wcmcr_add_colour_picker( $wpcustomize ) {
-    // Let's change the title colour.
     $wp_customize->add_setting( 'wcmcr_title_colour',
         array(
             'default'    => '#000',
@@ -317,7 +328,7 @@ $text = esc_html( get_theme_mod( 'wcmcr_welcome', 'Hello!' ) );</code></pre>
                 <section>
                     <pre><code class="php">$wp_customize->add_section( 'wcmcr_section_colour',
     array(
-        'title'          => 'Colour Options,
+        'title'          => 'Colour Options',
         'description'    => 'Colour options for WCMCR',
         'capability'     => 'manage_options',
         'priority'       => '10',
@@ -345,9 +356,9 @@ add_action( 'customize_register', 'wcmcr_add_colour_picker' );</code></pre>
             </section>
             <!-- OUTPUT CSS -->
             <section>
-                <h2>Outputting the new CSS</h2>
+                <h2>Generating the new CSS</h2>
                 <section>
-                    <p>Now that we've chosen a new colour for the target elements, we need to ensure that we're generating this new CSS on the front-end.</p>
+                    <p>Now that we've chosen a new colour for the target elements, we need to ensure that we're generating the new CSS on the front-end.</p>
                     <p>In order to do this, we need to hook into the <strong><code>wp_head</code></strong> action using a function added to our <strong><code>customizer.php</code></strong> file.</p>
                 </section>
                 <section>
@@ -373,7 +384,7 @@ add_action( 'wp_head', 'wcmcr_customize_css' );</code></pre>
             </section>
             <!-- LIVE PREVIEW WITH POSTMESSAGE -->
             <section>
-                <h2>Live Preview with postMessage</h2>
+                <h2>Enabling Live Preview</h2>
                 <p>Changing the the <strong><code>transport</code></strong> argument from <strong><code>refresh</code></strong> to <strong><code>postMessage</code></strong> updates the live preview using Javascript instead of refreshing the iFrame.</p>
                 <pre><code class="php">$wp_customize->add_setting( 'wcmcr_phone_number',
     array(
@@ -396,12 +407,12 @@ add_action( 'wp_head', 'wcmcr_customize_css' );</code></pre>
 } )( jQuery );
 </code></pre>
                     <p>Now you need to add a Javascript handler for every customizer setting
-                        <br/> you wish to use with the live preview feature.</p>
+                        <br/> that needs to use the live preview feature.</p>
             </section>
             <section>
                 <h2>Adding a JS handler</h2>
-                <pre class="small"><code class="php">// Update the phone number.
-wp.customize( 'wpleeds_phone_number', function( value ) {
+                <p>Let's add a handler to enable live preview for our phone number setting.</p>
+                <pre class="small"><code class="php">wp.customize( 'wcmcr_phone_number', function( value ) {
 
     // Update the HTML value of the phone number element.
     value.bind( function( newval ) {
@@ -412,10 +423,8 @@ wp.customize( 'wpleeds_phone_number', function( value ) {
             </section>
             <section>
                 <h2>Adding a JS handler</h2>
-                <pre class="small"><code class="php">// Previous handler to update phone number.
-
-// Update the site title colour.
-wp.customize( 'wcmcr_title_colour', function( value ) {
+                <p>And another handler for the site title colour setting.
+                    <pre class="small"><code class="php">wp.customize( 'wcmcr_title_colour', function( value ) {
 
     // Change the colour of the title elment.
     value.bind( function( newval ) {
@@ -427,17 +436,16 @@ wp.customize( 'wcmcr_title_colour', function( value ) {
             <!-- ENQUEUEING THE CUSTOMIZER JS -->
             <section>
                 <h2>Enqueue the customizer JS</h2>
-                <p>In order for our new Javascript handlers to work, we must enqueue our new <strong><code>customizer.js</code></strong> file, the WordPress way.</p>
+                <p>Now we must enqueue our new <strong><code>customizer.js</code></strong> file, the WordPress way.</p>
                 <pre class="small"><code class="php">function wcmcr_customizer_js() {
 
     wp_enqueue_script(
         'wcmcr-customizer-js',
-        get_stylesheet_directory_uri().'/js/customizer.js',
+        get_stylesheet_directory_uri() . '/js/customizer.js',
         array( 'jquery','customize-preview' ),
-        '',
+        false,
         true // In the footer!
     );
-
 }
 add_action('customize_preview_init', 'wcmcr_customizer_js');</code></pre>
             </section>
@@ -458,9 +466,9 @@ add_action('customize_preview_init', 'wcmcr_customizer_js');</code></pre>
             </section>
             <!-- MODIFYING SETTINGS, PANELS, SECTIONS AND CONTROLS -->
             <section>
-                <h2>Modifying items in the Customizer object</h2>
-                <p>Use the <strong><code>get_xxx</code></strong> methods to modify the properties of a given
-                    <br/> setting, panel, section or control.</p>
+                <h2>Making Modifications</h2>
+                <p>Use the <strong><code>get_</code></strong> methods to modify the properties of a given
+                    <br/> customizer setting, panel, section or control.</p>
                 <pre class="small"><code class="php">$wp_customize->get_setting( 'wcmcr_phone_number' )->default =
 '999';
 
@@ -476,7 +484,7 @@ $wp_customize->get_control( 'wcmcr_phone_number' )->label =
             <!-- REMOVING ITEMS FROM THE CUSTOMIZER-->
             <section>
                 <h2>Removing items from<br/> the Customizer object</h2>
-                <p>Anything that exists in the customizer - including default options - can be removed by using the <strong><code>remove_xxx</code></strong> methods.</p>
+                <p>Anything that exists in the customizer - including default options - can be removed using the <strong><code>remove_</code></strong> methods.</p>
                 <pre class="small"><code class="php">$wp_customize->remove_panel( 'wcmcr_panel' );
 
 $wp_customize->remove_section( 'header_image' );
@@ -517,10 +525,11 @@ $wp_customize->remove_control( 'sidebar_textcolor' );</code></pre>
             <!-- THANK YOU! -->
             <section>
                 <h1>THANK YOU!</h1>
-                <h2>Slides available at</h2>
-                <h3 style="margin-bottom: 0;"><strong><a href=" http://davetgreen.me/customizer-talk/ ">davetgreen.me/customizer-talk</strong></a></h3>
-                <h3><strong><a href="http://speakerdeck.com/davetgreen ">speakerdeck.com/davetgreen</strong></a></h3>
-                <h3><a href="https://twitter.com/davetgreen ">( @davetgreen )</a></h4>
+                <h2><a href="https://twitter.com/davetgreen ">@davetgreen</a></h2>
+                <h3>Slides available at</h3>
+                <h4 style="margin-bottom: 0;"><strong><a href=" http://davetgreen.me/customizer-talk/ ">davetgreen.me/customizer-talk</strong></a></h4>
+                <br/>
+                <h4><strong><a href="https://github.com/davetgreen/wp-customizer-talk">github.com/davetgreen/wp-customizer-talk</strong></a></h4>
             </section>
         </div>
         <!-- End of slides container -->
