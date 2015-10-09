@@ -35,7 +35,7 @@
                 <h1>Dave Green</h1>
                 <h3>Front-end &amp; WordPress<br/>
                 Developer at Make Do</h3>
-                <h3><a href="https://twitter.com/davetgreen">( @davetgreen )</a></h33>
+                <h3><a href="https://twitter.com/davetgreen">@davetgreen</a></h33>
             </section>
             <!-- SLIDE 1 - TALK TITLE -->
             <section>
@@ -116,18 +116,16 @@ require get_template_directory() . '/inc/customizer.php';
                 <h2>The customize_register action hook</h2>
                 <p>All of your customizer code needs be contained inside one or more functions that are hooked into this action in order for it to be executed.</p>
                 <pre><code class="php">function wcmcr_customize( $wp_customize ) {
-
     // Define settings, panels, sections and controls
     // inside this function or multiple functions using
     // the same action hook.
-
 }
 add_action( 'customize_register', 'wcmcr_customize' );</code></pre>
             </section>
             <!-- WP CUSTOMIZE OBJECT -->
             <section>
                 <h2>The WP Customize Object</h2>
-                <p>There are twelve <strong><code>$wpcustomize</code></strong> methods available for you to use. You'll use the <strong><code>add_xxx</code></strong> methods the most when working with the Customizer.</p>
+                <p>There are eleven <strong><code>$wpcustomize</code></strong> methods available for you to use. You'll use the <strong><code>add_xxx</code></strong> methods the most when working with the Customizer.</p>
                 <br/>
                 <table>
                     <thead>
@@ -152,7 +150,7 @@ add_action( 'customize_register', 'wcmcr_customize' );</code></pre>
                             <td>get_control</td>
                         </tr>
                         <tr>
-                            <td>remove_setting</td>
+                            <td></td>
                             <td>remove_panel</td>
                             <td>remove_section</td>
                             <td>remove_control</td>
@@ -169,7 +167,6 @@ add_action( 'customize_register', 'wcmcr_customize' );</code></pre>
         'type'       => 'theme_mod', // OR 'option'
         'default'    => '07890 123 456',
         'capability' => 'manage_options',
-        'theme-supports' => '',
         'transport'  => 'postMessage',
         'sanitize_callback' => 'wcmcr_validate'
     )
@@ -178,7 +175,8 @@ add_action( 'customize_register', 'wcmcr_customize' );</code></pre>
             <!-- THEME MOD VERSUS OPTION -->
             <section>
                 <h2>Theme Mod versus Option</h2>
-                <p>Brief summary of the difference...</p>
+                <p class="fragment">A theme modification or "mod" is used to store a theme specific setting which will </p>
+                <p class="fragment"></p>
             </section>
             <!-- VALIDATING SETTING DATA -->
             <section>
@@ -534,7 +532,7 @@ $wp_customize->remove_control( 'sidebar_textcolor' );</code></pre>
         // https://github.com/hakimel/reveal.js#configuration
         Reveal.initialize({
             width: 1200,
-            height: 800,
+            height: 675,
             controls: true,
             progress: true,
             slideNumber: true,
