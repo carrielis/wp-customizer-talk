@@ -12,8 +12,7 @@
     <link rel="stylesheet" href="css/reveal.css">
     <link rel="stylesheet" href="css/theme/dave.css" id="theme">
     <!-- Code syntax highlighting -->
-    <!-- <link rel="stylesheet" href="lib/css/monokai_sublime.css">
- -->
+    <!-- <link rel="stylesheet" href="lib/css/monokai_sublime.css"> -->
     <link rel="stylesheet" href="lib/css/tomorrow-night-bright.css">
     <!-- Printing and PDF exports -->
     <script>
@@ -177,7 +176,7 @@ add_action( 'customize_register', 'wcmcr_customize' );</code></pre>
             <!-- VALIDATING SETTING DATA -->
             <section>
                 <h2>Validating Setting Data</h2>
-                <p>Here we use a simple regular expression to ensure our number setting contains only numbers: no letters or special characters.</p>
+                <p>Here we use a simple regular expression to ensure our number setting contains only numbers and spaces: no letters or special characters.</p>
                 <pre><code class="php">// Add to the top/bottom of customizer.php.
 function wcmcr_validate( $data ) {
 
@@ -294,7 +293,7 @@ function wcmcr_validate( $data ) {
             <section>
                 <h2>Getting a setting value</h2>
                 <p>The function <strong><code>get_theme_mod()</code></strong> is used to retrieve your customizer
-                    <br/> setting's value from the database for use in your theme.</p>
+                    <br/> settings from the database for use in your theme.</p>
                 <pre class="small"><code class="php">// You should escape the string before you use it.
 esc_html_e( get_theme_mod( 'wcmcr_welcome' ) );
 
@@ -380,11 +379,6 @@ add_action( 'customize_register', 'wcmcr_add_colour_picker' );</code></pre>
 add_action( 'wp_head', 'wcmcr_customize_css' );</code></pre>
                 </section>
             </section>
-            <!-- LET'S HAVE A LOOK -->
-            <section>
-                <h2>Let's have a look...</h2>
-                <p>Pending pre-recorded video/animated gif...</p>
-            </section>
             <!-- LIVE PREVIEW WITH POSTMESSAGE -->
             <section>
                 <h2>Enabling Live Preview</h2>
@@ -455,7 +449,7 @@ add_action('customize_preview_init', 'wcmcr_customizer_js');</code></pre>
             <!-- LET'S HAVE A LOOK -->
             <section>
                 <h2>Let's have a look...</h2>
-                <p>Pending pre-recorded video/animated gif...</p>
+                <video src="vid/WCMCR-Demo-1.mp4" autoplay autobuffer autoloop loop></video>
             </section>
             <!-- SUCCESS -->
             <section>
@@ -464,8 +458,7 @@ add_action('customize_preview_init', 'wcmcr_customizer_js');</code></pre>
             <!-- HERE'S ONE I MADE EARLIER -->
             <section>
                 <h2>Here's one I made earlier</h2>
-                <p>Pending pre-recorded video/animated gif of some
-                    <br/> extreme changes using the customizer...</p>
+                <video src="vid/WCMCR-Demo-2.mp4" autoplay autobuffer autoloop loop></video>
             </section>
             <!-- MODIFYING SETTINGS, PANELS, SECTIONS AND CONTROLS -->
             <section>

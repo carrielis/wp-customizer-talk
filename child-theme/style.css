@@ -1,10 +1,14 @@
-            /*
+                              /*
  Theme Name:   WordCamp MCR Demo
  Template:     twentyfifteen
  Text Domain:  twenty-fifteen-child
 */
-         
-         .phone-number {
-             font-size: 32px;
-             font-weight: bold;
-            }
+                        
+                        .phone-number {
+                            font-size: 24px;
+                            font-weight: bold;
+                           }
+                           
+                           .logo {
+                               margin-bottom: 24px;
+                              }
