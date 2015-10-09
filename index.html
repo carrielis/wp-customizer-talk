@@ -127,7 +127,7 @@ add_action( 'customize_register', 'wcmcr_customize' );</code></pre>
             <!-- WP CUSTOMIZE OBJECT -->
             <section>
                 <h2>The WP Customize Object</h2>
-                <p>There are eleven <strong><code>$wpcustomize</code></strong> methods available for you to use. You'll mostly be using the <strong><code>add_</code></strong> methods when working with the Customizer.</p>
+                <p>There are twelve <strong><code>$wpcustomize</code></strong> methods available for you to use. You'll mostly be using the <strong><code>add_</code></strong> methods when working with the Customizer.</p>
                 <br/>
                 <table>
                     <thead>
@@ -152,7 +152,7 @@ add_action( 'customize_register', 'wcmcr_customize' );</code></pre>
                             <td>get_control</td>
                         </tr>
                         <tr>
-                            <td></td>
+                            <td>remove_setting</td>
                             <td>remove_panel</td>
                             <td>remove_section</td>
                             <td>remove_control</td>
@@ -170,23 +170,9 @@ add_action( 'customize_register', 'wcmcr_customize' );</code></pre>
         'default'    => '07890 123 456',
         'capability' => 'manage_options',
         'transport'  => 'postMessage',
-        'sanitize_callback' => 'wcmcr_validate'
+        'sanitize_callback' => 'wcmcr_validate_phone'
     )
 );</code></pre>
-            </section>
-            <!-- THEME MOD VERSUS OPTION -->
-            <section>
-                <h2>Theme Mod versus Option</h2>
-                <div class="fragment" style="float: left; text-align: left; width: 49%;">
-                    <h3><strong>Theme Mod</strong></h3>
-                    <p>Settings can only be used by that specific theme. Recommended.</p>
-                    <p>All customizer settings are stored as a single option in the database, containing a serialized array.</p>
-                </div>
-                <div class="fragment" style="float: left; padding-left: 2%; text-align: left; width: 49%;">
-                    <h3><strong>Option</strong></h3>
-                    <p>Settings can be used by absolutely any theme or plugin.</p>
-                    <p>Each of the customizer settings are stored as a unique option in the database.</p>
-                </div>
             </section>
             <!-- VALIDATING SETTING DATA -->
             <section>
@@ -200,14 +186,30 @@ function wcmcr_validate( $data ) {
   return $sanitized;
 }</code></pre>
             </section>
+            <!-- THEME MOD VERSUS OPTION -->
+            <section>
+                <h2>Theme_Mod versus Option</h2>
+                <div class="fragment" style="float: left; padding-right: 2%; text-align: left; width: 48%;">
+                    <h3><strong>Theme Mod</strong></h3>
+                    <p>Settings can only be used by that specific theme. Recommended.</p>
+                    <br/>
+                    <p>All customizer settings are stored as a single option in the database, containing a serialized array.</p>
+                </div>
+                <div class="fragment" style="float: left; padding-left: 2%; text-align: left; width: 48%;">
+                    <h3><strong>Option</strong></h3>
+                    <p>Settings can be used by absolutely any theme or plugin.</p>
+                    <br/>
+                    <p>Each of the customizer settings are stored as a unique option in the database.</p>
+                </div>
+            </section>
             <!-- ADDING A SECTION -->
             <section>
                 <h2>Adding a section</h2>
                 <p>A section is a container for customizer controls that can be grouped under a similar theme e.g. colour scheme, branding etc.</p>
-                <pre><code class="php">$wp_customize->add_section( 'wcmcr_section',
+                <pre><code class="php">$wp_customize->add_section( 'wcmcr_section_contact',
     array(
-        'title'          => 'WCMCR Section',
-        'description'    => 'Section for WCMCR',
+        'title'          => 'Contact Info',
+        'description'    => 'Contact info for WCMCR',
         'capability'     => 'manage_options',
         'theme-supports' => '',
         'priority'       => '10',
@@ -232,35 +234,33 @@ function wcmcr_validate( $data ) {
             <!-- ADDING A CONTROL -->
             <section>
                 <h2>Adding a control</h2>
-                <p>A control is a UI element such as a text field, colour picker or image uploader which the user interacts with to update a setting.</p>
-                <pre class="small"><code class="php">$wp_customize->add_control(
-    new WP_Customize_Control(
-        $wp_customize, 'wcmcr_phone_number',
+                <p>Controls are UI elements such as a text fields, colour pickers, image uploaders which the user interacts with to update a setting.</p>
+                <pre class="small"><code class="php">$wp_customize->add_control( new WP_Customize_Control(
+        $wp_customize,
+        'wcmcr_phone_number',
         array(
             'label'    => 'Phone Number',
-            'section'  => 'wcmcr_section',
+            'section'  => 'wcmcr_section_contact',
             'settings' => 'wcmcr_phone_number',
             'type'     => 'text',
             'priority' => 10,
             'active_callback' => 'is_front_page' // NEW!
         )
-    )
-);</code></pre>
+) );</code></pre>
             </section>
             <!-- ADDING CONTROLS TO EXISTING SECTIONS -->
             <section>
                 <h2>Adding a control to an existing section</h2>
-                <pre><code class="php">$wp_customize->add_control(
-    new WP_Customize__Control(
+                <pre><code class="php">$wp_customize->add_control( new WP_Customize__Control(
         $wp_customize,
         'wcmcr_intro_text',
         array(
             'label'    => 'Introductory Text',
             'section'  => 'title_tagline', // BINGO!
-            'settings' => 'wcmcr_intro_text'
+            'settings' => 'wcmcr_intro_text',
+            'priorty'  => 10
         )
-    )
-);</code></pre>
+) );</code></pre>
             </section>
             <!-- ADDITIONAL CONTROL TYPES -->
             <section>
@@ -315,23 +315,26 @@ $text = esc_html( get_theme_mod( 'wcmcr_welcome', 'Hello!' ) );</code></pre>
                     <p>Let's add a colour picker to change the colour of the site title.</p>
                 </section>
                 <section>
-                    <pre><code class="php">function wcmcr_add_colour_picker( $wpcustomize ) {
-    $wp_customize->add_setting( 'wcmcr_title_colour',
-        array(
-            'default'    => '#000',
-            'capability' => 'manage_options',
-            'transport'  => 'postMessage'
-            'priority'   => 10
-        )
-    );</code></pre>
+                    <pre><code class="php">function wcmcr_add_colour_picker( $wp_customize ) {
+    $wp_customize->add_setting(
+    'wcmcr_title_colour',
+    array(
+        'default'    => '#000',
+        'capability' => 'manage_options',
+        'transport'  => 'postMessage'
+        'priority'   => 10
+    )
+);</code></pre>
                 </section>
                 <section>
-                    <pre><code class="php">$wp_customize->add_section( 'wcmcr_section_colour',
+                    <pre><code class="php">$wp_customize->add_section(
+    'wcmcr_section_colour',
     array(
         'title'          => 'Colour Options',
         'description'    => 'Colour options for WCMCR',
         'capability'     => 'manage_options',
         'priority'       => '10',
+        'panel'          => 'wcmcr_panel',
     )
 );</code></pre>
                 </section>
