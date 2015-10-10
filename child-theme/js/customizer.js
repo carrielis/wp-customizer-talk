@@ -1,6 +1,6 @@
 ( function( $ ) {
 
-    // Demo one
+    // Demo one.
     wp.customize( 'wcmcr_phone_number', function( value ) {
 
         // Update the HTML value of the phone number element.
@@ -10,7 +10,7 @@
 
     } );
 
-    // Demo two
+    // Demo two.
     wp.customize( 'wcmcr_title_colour', function( value ) {
 
         // Change the colour of the title elment.
@@ -26,7 +26,7 @@
         // Update the logo.
         value.bind( function( newval ) {
             $( '.logo img' ).remove();
-            console.log( newval );
+
             if ( newval ) {
                 $( '.logo' ).append( '<img src="' + newval + '"/>' );
             }
@@ -35,7 +35,7 @@
 
     wp.customize( 'wcmcr_heading_text', function( value ) {
 
-        // Update the HTML value of the phone number element.
+        // Update all the heading tags.
         value.bind( function( newval ) {
             $( 'h1, h2, h3, h4, h5, h6' ).html( newval );
         } );
@@ -44,7 +44,7 @@
 
     wp.customize( 'wcmcr_paragraph_text', function( value ) {
 
-        // Update the HTML value of the phone number element.
+        // Update all the paragraph text.
         value.bind( function( newval ) {
             $( 'p' ).html( newval );
         } );
