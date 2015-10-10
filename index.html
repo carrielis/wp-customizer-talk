@@ -115,7 +115,7 @@ require get_template_directory() . '/inc/customizer.php';
             <!-- CUSTOMIZE REGISTER ACTION HOOK -->
             <section>
                 <h2>The customize_register action hook</h2>
-                <p>All of your customizer code needs be contained inside one or more functions that are hooked into this action, or it won't be executed.</p>
+                <p>All of your Customizer code needs be contained inside one or more functions that are hooked into this action, or it won't be executed.</p>
                 <pre><code class="php">function wcmcr_customize( $wp_customize ) {
     // Define settings, panels, sections and controls
     // inside this function or multiple functions using
@@ -126,7 +126,7 @@ add_action( 'customize_register', 'wcmcr_customize' );</code></pre>
             <!-- WP CUSTOMIZE OBJECT -->
             <section>
                 <h2>The WP Customize Object</h2>
-                <p>There are twelve <strong><code>$wp_customize</code></strong> methods available for you to use. You'll mostly be using the <strong><code>add_</code></strong> methods when working with the Customizer.</p>
+                <p>There are twelve <strong><code>$wp_customize</code></strong> methods available for you to use. You'll mostly be using the <strong><code>add_</code></strong> methods.</p>
                 <br/>
                 <table>
                     <thead>
@@ -168,7 +168,7 @@ add_action( 'customize_register', 'wcmcr_customize' );</code></pre>
         'type'       => 'theme_mod', // OR 'option'
         'default'    => '07890 123 456',
         'capability' => 'manage_options',
-        'transport'  => 'postMessage',
+        'transport'  => 'refresh', // or 'postMessage'
         'sanitize_callback' => 'wcmcr_validate_phone'
     )
 );</code></pre>
@@ -176,7 +176,7 @@ add_action( 'customize_register', 'wcmcr_customize' );</code></pre>
             <!-- VALIDATING SETTING DATA -->
             <section>
                 <h2>Validating Setting Data</h2>
-                <p>Here we use a simple regular expression to ensure our number setting contains only numbers and spaces: no letters or special characters.</p>
+                <p>Here we use a regular expression to ensure our number setting contains only numbers and spaces: no letters or special characters.</p>
                 <pre><code class="php">// Add to the top/bottom of customizer.php.
 function wcmcr_validate( $data ) {
 
@@ -189,10 +189,10 @@ function wcmcr_validate( $data ) {
             <section>
                 <h2>Theme_Mod versus Option</h2>
                 <div class="fragment" style="float: left; padding-right: 2%; text-align: left; width: 48%;">
-                    <h3><strong>Theme Mod</strong></h3>
-                    <p>Settings can only be used by that specific theme. Recommended.</p>
+                    <h3><strong>Theme_Mod</strong></h3>
+                    <p>Settings can only be used by that specific theme. <em>Recommended.</em></p>
                     <br/>
-                    <p>All customizer settings are stored as a single option in the database, containing a serialized array.</p>
+                    <p>All customizer settings are stored within a serialized array in a single option in the database.</p>
                 </div>
                 <div class="fragment" style="float: left; padding-left: 2%; text-align: left; width: 48%;">
                     <h3><strong>Option</strong></h3>
@@ -233,7 +233,7 @@ function wcmcr_validate( $data ) {
             <!-- ADDING A CONTROL -->
             <section>
                 <h2>Adding a control</h2>
-                <p>Controls are UI elements such as a text fields, colour pickers, image uploaders which the user interacts with to update a setting.</p>
+                <p>Controls are UI elements such as a text fields, colour pickers and image uploaders which the user interacts with to update a setting.</p>
                 <pre class="small"><code class="php">$wp_customize->add_control( new WP_Customize_Control(
         $wp_customize,
         'wcmcr_phone_number',
@@ -264,30 +264,37 @@ function wcmcr_validate( $data ) {
             <!-- ADDITIONAL CONTROL TYPES -->
             <section>
                 <h2>Additional Control Types</h2>
-                <p>In addition to the <strong><code>WP_Customize_Control</code></strong> class that is used for standard HTML form elements, classes for several other control types are available.</p>
+                <p>In addition to the <strong><code>WP_Customize_Control</code></strong> class used for standard HTML form elements, there are classes for several other control types..</p>
+                <div style="width: 50%; float: left;">
                 <ul>
                     <li class="fragment">
-                        <p><strong><code>WP_Customize_Color_Control</code></strong></p>
+                        <p class="small"><strong><code>WP_Customize_Color_Control</code></strong></p>
                     </li>
                     <li class="fragment">
-                        <p><strong><code>WP_Customize_Upload_Control</code></strong></p>
+                        <p class="small"><strong><code>WP_Customize_Upload_Control</code></strong></p>
                     </li>
                     <li class="fragment">
-                        <p><strong><code>WP_Customize_Image_Control</code></strong></p>
+                        <p class="small"><strong><code>WP_Customize_Image_Control</code></strong></p>
                     </li>
                     <li class="fragment">
-                        <p><strong><code>WP_Customize_Cropped_Image_Control (NEW!)</code></strong></p>
+                        <p class="small"><strong><code>WP_Customize_Background_Image_Control</code></strong></p>
                     </li>
                     <li class="fragment">
-                        <p><strong><code>WP_Customize_Media_Control (NEW!)</code></strong></p>
-                    </li>
-                    <li class="fragment">
-                        <p><strong><code>WP_Customize_Background_Image_Control</code></strong></p>
-                    </li>
-                    <li class="fragment">
-                        <p><strong><code>WP_Customize_Header_Image_Control</code></strong></p>
+                        <p class="small"><strong><code>WP_Customize_Header_Image_Control</code></strong></p>
                     </li>
                 </ul>
+                </div>
+                <div style="width: 50%; float: left;">
+                <ul>
+                    <li class="fragment">
+                        <p class="small"><strong><code>WP_Customize_Cropped_Image_Control</code></strong></p>
+                    </li>
+                    <li class="fragment">
+                        <p class="small"><strong><code>WP_Customize_Media_Control</code></strong></p>
+                    </li>
+
+                </ul>
+                </div>
             </section>
             <!-- DISPLAYING OPTIONS WITH GET_THEME_MOD -->
             <section>
@@ -377,7 +384,7 @@ add_action( 'wp_head', 'wcmcr_customize_css' );</code></pre>
             <!-- LIVE PREVIEW WITH POSTMESSAGE -->
             <section>
                 <h2>Enabling Live Preview</h2>
-                <p>Changing the the <strong><code>transport</code></strong> argument from <strong><code>refresh</code></strong> to <strong><code>postMessage</code></strong> updates the live preview using Javascript instead of refreshing the iFrame.</p>
+                <p>Changing the the <strong><code>transport</code></strong> argument from <strong><code>refresh</code></strong> to <strong><code>postMessage</code></strong> updates the live preview using JS instead of refreshing the iFrame.</p>
                 <pre><code class="php">$wp_customize->add_setting( 'wcmcr_phone_number',
     array(
         'default'    => '07890 123 456',
@@ -428,7 +435,7 @@ add_action( 'wp_head', 'wcmcr_customize_css' );</code></pre>
             <!-- ENQUEUEING THE CUSTOMIZER JS -->
             <section>
                 <h2>Enqueue the customizer JS</h2>
-                <p>Now we must enqueue our new <strong><code>customizer.js</code></strong> file, the WordPress way.</p>
+                <p>Now we must enqueue the <strong><code>customizer.js</code></strong> file, the WordPress way.</p>
                 <pre class="small"><code class="php">function wcmcr_customizer_js() {
 
     wp_enqueue_script(
@@ -485,10 +492,16 @@ $wp_customize->remove_control( 'background_color' );
 $wp_customize->remove_control( 'header_background_color' );
 $wp_customize->remove_control( 'sidebar_textcolor' );</code></pre>
             </section>
-            <!-- THE FUTURE OF CUSTOMIZER -->
+            <!-- JUST ONE MORE THING -->
             <section>
-                <h2>The future of the Customizer API</h2>
-                <p>Pending several bullet points...</p>
+                <h2>Just one more thing...</h2>
+                <img src="img/columbo.jpg" src="Just one more thing" />
+            </section>
+            <!-- -->
+            <section>
+                <h2>Wordpress.org Themes</h2>
+                <p>In April 2015, the WordPress Theme Review Team decided to enforce the use of the Customizer for theme options in all newly submitted themes.</p>
+                <img src="img/customizer-org.png" />
             </section>
             <!-- YOU SHOULD TAKE A LOOK AT -->
             <section>
