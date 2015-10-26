@@ -266,34 +266,33 @@ function wcmcr_validate( $data ) {
                 <h2>Additional Control Types</h2>
                 <p>In addition to the <strong><code>WP_Customize_Control</code></strong> class used for standard HTML form elements, there are classes for several other control types..</p>
                 <div style="width: 50%; float: left;">
-                <ul>
-                    <li class="fragment">
-                        <p class="small"><strong><code>WP_Customize_Color_Control</code></strong></p>
-                    </li>
-                    <li class="fragment">
-                        <p class="small"><strong><code>WP_Customize_Upload_Control</code></strong></p>
-                    </li>
-                    <li class="fragment">
-                        <p class="small"><strong><code>WP_Customize_Image_Control</code></strong></p>
-                    </li>
-                    <li class="fragment">
-                        <p class="small"><strong><code>WP_Customize_Background_Image_Control</code></strong></p>
-                    </li>
-                    <li class="fragment">
-                        <p class="small"><strong><code>WP_Customize_Header_Image_Control</code></strong></p>
-                    </li>
-                </ul>
+                    <ul>
+                        <li class="fragment">
+                            <p class="small"><strong><code>WP_Customize_Color_Control</code></strong></p>
+                        </li>
+                        <li class="fragment">
+                            <p class="small"><strong><code>WP_Customize_Upload_Control</code></strong></p>
+                        </li>
+                        <li class="fragment">
+                            <p class="small"><strong><code>WP_Customize_Image_Control</code></strong></p>
+                        </li>
+                        <li class="fragment">
+                            <p class="small"><strong><code>WP_Customize_Background_Image_Control</code></strong></p>
+                        </li>
+                        <li class="fragment">
+                            <p class="small"><strong><code>WP_Customize_Header_Image_Control</code></strong></p>
+                        </li>
+                    </ul>
                 </div>
                 <div style="width: 50%; float: left;">
-                <ul>
-                    <li class="fragment">
-                        <p class="small"><strong><code>WP_Customize_Cropped_Image_Control</code></strong></p>
-                    </li>
-                    <li class="fragment">
-                        <p class="small"><strong><code>WP_Customize_Media_Control</code></strong></p>
-                    </li>
-
-                </ul>
+                    <ul>
+                        <li class="fragment">
+                            <p class="small"><strong><code>WP_Customize_Cropped_Image_Control</code></strong></p>
+                        </li>
+                        <li class="fragment">
+                            <p class="small"><strong><code>WP_Customize_Media_Control</code></strong></p>
+                        </li>
+                    </ul>
                 </div>
             </section>
             <!-- DISPLAYING OPTIONS WITH GET_THEME_MOD -->
@@ -302,7 +301,7 @@ function wcmcr_validate( $data ) {
                 <p>The function <strong><code>get_theme_mod()</code></strong> is used to retrieve your customizer
                     <br/> settings from the database for use in your theme.</p>
                 <pre class="small"><code class="php">// You should escape the string before you use it.
-esc_html_e( get_theme_mod( 'wcmcr_welcome' ) );
+echo esc_html( get_theme_mod( 'wcmcr_welcome' ) );
 
 // You can add a fall back value which will override
 // the setting's default value if it exists.
