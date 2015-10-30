@@ -116,12 +116,12 @@ require get_template_directory() . '/inc/customizer.php';
             <section>
                 <h2>The customize_register action hook</h2>
                 <p>All of your Customizer code needs be contained inside one or more functions that are hooked into this action, or it won't be executed.</p>
-                <pre><code class="php">function wcmcr_customize( $wp_customize ) {
+                <pre><code class="php">function dtg_customize( $wp_customize ) {
     // Define settings, panels, sections and controls
     // inside this function or multiple functions using
     // the same action hook.
 }
-add_action( 'customize_register', 'wcmcr_customize' );</code></pre>
+add_action( 'customize_register', 'dtg_customize' );</code></pre>
             </section>
             <!-- WP CUSTOMIZE OBJECT -->
             <section>
@@ -163,13 +163,13 @@ add_action( 'customize_register', 'wcmcr_customize' );</code></pre>
             <section>
                 <h2>Adding a setting</h2>
                 <p>Customizer settings are responsible for saving the user's changes and sanitizing the data, as well as facilitating the 'live preview' feature.</p>
-                <pre><code class="php">$wp_customize->add_setting( 'wcmcr_phone_number',
+                <pre><code class="php">$wp_customize->add_setting( 'dtg_phone_number',
     array(
         'type'       => 'theme_mod', // OR 'option'
         'default'    => '07890 123 456',
         'capability' => 'manage_options',
         'transport'  => 'refresh', // or 'postMessage'
-        'sanitize_callback' => 'wcmcr_validate_phone'
+        'sanitize_callback' => 'dtg_validate_phone'
     )
 );</code></pre>
             </section>
@@ -178,7 +178,7 @@ add_action( 'customize_register', 'wcmcr_customize' );</code></pre>
                 <h2>Validating Setting Data</h2>
                 <p>Here we use a regular expression to ensure our number setting contains only numbers and spaces: no letters or special characters.</p>
                 <pre><code class="php">// Add to the top/bottom of customizer.php.
-function wcmcr_validate( $data ) {
+function dtg_validate( $data ) {
 
   $sanitized = preg_replace( '/[^0-9 ]+/', '', $data );
 
@@ -205,14 +205,14 @@ function wcmcr_validate( $data ) {
             <section>
                 <h2>Adding a section</h2>
                 <p>A section is a container for customizer controls that can be grouped under a similar theme e.g. colour scheme, branding etc.</p>
-                <pre><code class="php">$wp_customize->add_section( 'wcmcr_section_contact',
+                <pre><code class="php">$wp_customize->add_section( 'dtg_section_contact',
     array(
         'title'          => 'Contact Info',
         'description'    => 'Contact info for WCMCR',
         'capability'     => 'manage_options',
         'theme-supports' => '',
         'priority'       => '10',
-        'panel'          => 'wcmcr_panel'
+        'panel'          => 'dtg_panel'
     )
 );</code></pre>
             </section>
@@ -220,7 +220,7 @@ function wcmcr_validate( $data ) {
             <section>
                 <h2>Adding a panel</h2>
                 <p>A panel is a UI container for customizer sections, and is useful if you have multiple sections that can grouped under a similar theme.</p>
-                <pre><code class="php">$wp_customize->add_panel( 'wcmcr_panel',
+                <pre><code class="php">$wp_customize->add_panel( 'dtg_panel',
     array(
         'title'          => 'WCMCR Panel',
         'description'    => 'Panel for WCMCR',
@@ -236,11 +236,11 @@ function wcmcr_validate( $data ) {
                 <p>Controls are UI elements such as a text fields, colour pickers and image uploaders which the user interacts with to update a setting.</p>
                 <pre class="small"><code class="php">$wp_customize->add_control( new WP_Customize_Control(
         $wp_customize,
-        'wcmcr_phone_number',
+        'dtg_phone_number',
         array(
             'label'    => 'Phone Number',
-            'section'  => 'wcmcr_section_contact',
-            'settings' => 'wcmcr_phone_number',
+            'section'  => 'dtg_section_contact',
+            'settings' => 'dtg_phone_number',
             'type'     => 'text',
             'priority' => 10,
             'active_callback' => 'is_front_page' // NEW!
@@ -252,11 +252,11 @@ function wcmcr_validate( $data ) {
                 <h2>Adding a control to an existing section</h2>
                 <pre><code class="php">$wp_customize->add_control( new WP_Customize__Control(
         $wp_customize,
-        'wcmcr_intro_text',
+        'dtg_intro_text',
         array(
             'label'    => 'Introductory Text',
             'section'  => 'title_tagline', // BINGO!
-            'settings' => 'wcmcr_intro_text',
+            'settings' => 'dtg_intro_text',
             'priorty'  => 10
         )
 ) );</code></pre>
@@ -301,11 +301,11 @@ function wcmcr_validate( $data ) {
                 <p>The function <strong><code>get_theme_mod()</code></strong> is used to retrieve your customizer
                     <br/> settings from the database for use in your theme.</p>
                 <pre class="small"><code class="php">// You should escape the string before you use it.
-echo esc_html( get_theme_mod( 'wcmcr_welcome' ) );
+echo esc_html( get_theme_mod( 'dtg_welcome' ) );
 
 // You can add a fall back value which will override
 // the setting's default value if it exists.
-$text = esc_html( get_theme_mod( 'wcmcr_welcome', 'Hello!' ) );</code></pre>
+$text = esc_html( get_theme_mod( 'dtg_welcome', 'Hello!' ) );</code></pre>
                 <p>If you've elected to register the setting as an <strong><code>option</code></strong>, you'll need to retrieve it by using the <strong><code>get_option</code></strong> function instead.</p>
             </section>
             <!-- ADDING A COLOUR PICKER -->
@@ -315,9 +315,9 @@ $text = esc_html( get_theme_mod( 'wcmcr_welcome', 'Hello!' ) );</code></pre>
                     <p>Let's add a colour picker to change the colour of the site title.</p>
                 </section>
                 <section>
-                    <pre><code class="php">function wcmcr_add_colour_picker( $wp_customize ) {
+                    <pre><code class="php">function dtg_add_colour_picker( $wp_customize ) {
     $wp_customize->add_setting(
-    'wcmcr_title_colour',
+    'dtg_title_colour',
     array(
         'default'    => '#000',
         'capability' => 'manage_options',
@@ -328,13 +328,13 @@ $text = esc_html( get_theme_mod( 'wcmcr_welcome', 'Hello!' ) );</code></pre>
                 </section>
                 <section>
                     <pre><code class="php">$wp_customize->add_section(
-    'wcmcr_section_colour',
+    'dtg_section_colour',
     array(
         'title'          => 'Colour Options',
         'description'    => 'Colour options for WCMCR',
         'capability'     => 'manage_options',
         'priority'       => '10',
-        'panel'          => 'wcmcr_panel',
+        'panel'          => 'dtg_panel',
     )
 );</code></pre>
                 </section>
@@ -342,11 +342,11 @@ $text = esc_html( get_theme_mod( 'wcmcr_welcome', 'Hello!' ) );</code></pre>
                     <pre><code class="php">$wp_customize->add_control(
     new WP_Customize_Color_Control(
         $wp_customize,
-        'wcmcr_title_colour',
+        'dtg_title_colour',
         array(
             'label'    => 'Title Colour',
-            'section'  => 'wcmcr_section_colour',
-            'settings' => 'wcmcr_title_colour'
+            'section'  => 'dtg_section_colour',
+            'settings' => 'dtg_title_colour'
         )
     )
 );
@@ -354,7 +354,7 @@ $text = esc_html( get_theme_mod( 'wcmcr_welcome', 'Hello!' ) );</code></pre>
                 </section>
                 <section>
                     <pre class="small"><code class="php">}
-add_action( 'customize_register', 'wcmcr_add_colour_picker' );</code></pre>
+add_action( 'customize_register', 'dtg_add_colour_picker' );</code></pre>
                 </section>
             </section>
             <!-- OUTPUT CSS -->
@@ -365,31 +365,31 @@ add_action( 'customize_register', 'wcmcr_add_colour_picker' );</code></pre>
                     <p>In order to do this, we need to hook into the <strong><code>wp_head</code></strong> action using a function added to our <strong><code>customizer.php</code></strong> file.</p>
                 </section>
                 <section>
-                    <pre class="small"><code class="php">function wcmcr_customize_css() {
+                    <pre class="small"><code class="php">function dtg_customize_css() {
   ? >
 
   <style type="text/css">
     .site-title a {
-      color: <?php echo get_theme_mod('wcmcr_title_colour'); ?>;
+      color: <?php echo get_theme_mod('dtg_title_colour'); ?>;
     }
     /** Repeat for every element/selector you're targeting. **/
   </style>
 
   < ?php
 }
-add_action( 'wp_head', 'wcmcr_customize_css' );</code></pre>
+add_action( 'wp_head', 'dtg_customize_css' );</code></pre>
                 </section>
             </section>
             <!-- LIVE PREVIEW WITH POSTMESSAGE -->
             <section>
                 <h2>Enabling Live Preview</h2>
                 <p>Changing the the <strong><code>transport</code></strong> argument from <strong><code>refresh</code></strong> to <strong><code>postMessage</code></strong> updates the live preview using JS instead of refreshing the iFrame.</p>
-                <pre><code class="php">$wp_customize->add_setting( 'wcmcr_phone_number',
+                <pre><code class="php">$wp_customize->add_setting( 'dtg_phone_number',
     array(
         'default'    => '07890 123 456',
         'capability' => 'manage_options',
         'transport'  => 'postMessage', // BINGO!
-        'sanitize_callback' => 'wcmcr_validate'
+        'sanitize_callback' => 'dtg_validate'
     )
 );</code></pre>
             </section>
@@ -410,7 +410,7 @@ add_action( 'wp_head', 'wcmcr_customize_css' );</code></pre>
             <section>
                 <h2>Adding a JS handler</h2>
                 <p>Let's add a handler to enable live preview for our phone number setting.</p>
-                <pre class="small"><code class="php">wp.customize( 'wcmcr_phone_number', function( value ) {
+                <pre class="small"><code class="php">wp.customize( 'dtg_phone_number', function( value ) {
 
     // Update the HTML value of the phone number element.
     value.bind( function( newval ) {
@@ -422,7 +422,7 @@ add_action( 'wp_head', 'wcmcr_customize_css' );</code></pre>
             <section>
                 <h2>Adding a JS handler</h2>
                 <p>And another handler for the site title colour setting.
-                    <pre class="small"><code class="php">wp.customize( 'wcmcr_title_colour', function( value ) {
+                    <pre class="small"><code class="php">wp.customize( 'dtg_title_colour', function( value ) {
 
     // Change the colour of the title elment.
     value.bind( function( newval ) {
@@ -435,7 +435,7 @@ add_action( 'wp_head', 'wcmcr_customize_css' );</code></pre>
             <section>
                 <h2>Enqueue the customizer JS</h2>
                 <p>Now we must enqueue the <strong><code>customizer.js</code></strong> file, the WordPress way.</p>
-                <pre class="small"><code class="php">function wcmcr_customizer_js() {
+                <pre class="small"><code class="php">function dtg_customizer_js() {
 
     wp_enqueue_script(
         'wcmcr-customizer-js',
@@ -445,7 +445,7 @@ add_action( 'wp_head', 'wcmcr_customize_css' );</code></pre>
         true // In the footer!
     );
 }
-add_action('customize_preview_init', 'wcmcr_customizer_js');</code></pre>
+add_action('customize_preview_init', 'dtg_customizer_js');</code></pre>
             </section>
             <!-- LET'S HAVE A LOOK -->
             <section>
@@ -466,23 +466,23 @@ add_action('customize_preview_init', 'wcmcr_customizer_js');</code></pre>
                 <h2>Making Modifications</h2>
                 <p>Use the <strong><code>get_</code></strong> methods to modify the properties of a given
                     <br/> customizer setting, panel, section or control.</p>
-                <pre class="small"><code class="php">$wp_customize->get_setting( 'wcmcr_phone_number' )->default =
+                <pre class="small"><code class="php">$wp_customize->get_setting( 'dtg_phone_number' )->default =
 '999';
 
-$wp_customize->get_panel( 'wcmcr_panel' )->description =
+$wp_customize->get_panel( 'dtg_panel' )->description =
 'Stop! Panel Time!';
 
-$wp_customize->get_section( 'wcmcr_section' )->title =
+$wp_customize->get_section( 'dtg_section' )->title =
 'WCMCR ROCKS!';
 
-$wp_customize->get_control( 'wcmcr_phone_number' )->label =
+$wp_customize->get_control( 'dtg_phone_number' )->label =
 'Telephone';</code></pre>
             </section>
             <!-- REMOVING ITEMS FROM THE CUSTOMIZER-->
             <section>
                 <h2>Removing items from<br/> the Customizer object</h2>
                 <p>Anything that exists in the customizer - including default options - can be removed using the <strong><code>remove_</code></strong> methods.</p>
-                <pre class="small"><code class="php">$wp_customize->remove_panel( 'wcmcr_panel' );
+                <pre class="small"><code class="php">$wp_customize->remove_panel( 'dtg_panel' );
 
 $wp_customize->remove_section( 'header_image' );
 $wp_customize->remove_section( 'background_image' );
