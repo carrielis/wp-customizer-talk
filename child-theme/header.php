@@ -45,7 +45,7 @@
 				<p class="phone-number">
 					<?php
 					// Demo one.
-					esc_html_e( get_theme_mod( 'wcmcr_phone_number' ) );
+					esc_html_e( get_theme_mod( 'dtg_phone_number' ) );
 					?>
 				</p>
 

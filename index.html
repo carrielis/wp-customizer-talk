@@ -208,7 +208,7 @@ function dtg_validate( $data ) {
                 <pre><code class="php">$wp_customize->add_section( 'dtg_section_contact',
     array(
         'title'          => 'Contact Info',
-        'description'    => 'Contact info for WCMCR',
+        'description'    => 'Contact info for DTG',
         'capability'     => 'manage_options',
         'theme-supports' => '',
         'priority'       => '10',
@@ -222,8 +222,8 @@ function dtg_validate( $data ) {
                 <p>A panel is a UI container for customizer sections, and is useful if you have multiple sections that can grouped under a similar theme.</p>
                 <pre><code class="php">$wp_customize->add_panel( 'dtg_panel',
     array(
-        'title'          => 'WCMCR Panel',
-        'description'    => 'Panel for WCMCR',
+        'title'          => 'DTG Panel',
+        'description'    => 'Panel for DTG',
         'capability'     => 'manage_options',
         'theme-supports' => '',
         'priority'       => '10'
@@ -331,7 +331,7 @@ $text = esc_html( get_theme_mod( 'dtg_welcome', 'Hello!' ) );</code></pre>
     'dtg_section_colour',
     array(
         'title'          => 'Colour Options',
-        'description'    => 'Colour options for WCMCR',
+        'description'    => 'Colour options for DTG',
         'capability'     => 'manage_options',
         'priority'       => '10',
         'panel'          => 'dtg_panel',
@@ -438,7 +438,7 @@ add_action( 'wp_head', 'dtg_customize_css' );</code></pre>
                 <pre class="small"><code class="php">function dtg_customizer_js() {
 
     wp_enqueue_script(
-        'wcmcr-customizer-js',
+        'dtg-customizer-js',
         get_stylesheet_directory_uri() . '/js/customizer.js',
         array( 'jquery','customize-preview' ),
         false,
@@ -450,7 +450,7 @@ add_action('customize_preview_init', 'dtg_customizer_js');</code></pre>
             <!-- LET'S HAVE A LOOK -->
             <section>
                 <h2>Let's have a look...</h2>
-                <video src="vid/WCMCR-Demo-1.mp4" autoplay autobuffer autoloop loop></video>
+                <video src="vid/DTG-Demo-1.mp4" autoplay autobuffer autoloop loop></video>
             </section>
             <!-- SUCCESS -->
             <section>
@@ -459,7 +459,7 @@ add_action('customize_preview_init', 'dtg_customizer_js');</code></pre>
             <!-- HERE'S ONE I MADE EARLIER -->
             <section>
                 <h2>Here's one I made earlier</h2>
-                <video src="vid/WCMCR-Demo-2.mp4" autoplay autobuffer autoloop loop></video>
+                <video src="vid/DTG-Demo-2.mp4" autoplay autobuffer autoloop loop></video>
             </section>
             <!-- MODIFYING SETTINGS, PANELS, SECTIONS AND CONTROLS -->
             <section>
@@ -473,7 +473,7 @@ $wp_customize->get_panel( 'dtg_panel' )->description =
 'Stop! Panel Time!';
 
 $wp_customize->get_section( 'dtg_section' )->title =
-'WCMCR ROCKS!';
+'DTG ROCKS!';
 
 $wp_customize->get_control( 'dtg_phone_number' )->label =
 'Telephone';</code></pre>

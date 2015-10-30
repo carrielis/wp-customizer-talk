@@ -9,7 +9,7 @@
  * @param  string $data Setting data.
  * @return string       Validated setting data.
  */
-function wcmcr_validate_phone( $data ) {
+function dtg_validate_phone( $data ) {
 
 	$sanitized = preg_replace( '/[^0-9 ]+/', '', $data );
 
@@ -19,50 +19,50 @@ function wcmcr_validate_phone( $data ) {
 /**
  * Enqueue our customizer Javascriot
  */
-function wcmcr_customizer_js() {
+function dtg_customizer_js() {
 
 	wp_enqueue_script(
-		'wcmcr-customizer-js',
+		'dtg-customizer-js',
 		get_stylesheet_directory_uri() . '/js/customizer.js',
 		array( 'jquery','customize-preview' ),
 		false,
 		true // In the footer!
 	);
 }
-add_action( 'customize_preview_init', 'wcmcr_customizer_js' );
+add_action( 'customize_preview_init', 'dtg_customizer_js' );
 
 /**
  * Demo part one - phone number.
  * @param  object $wp_customize Customizer object.
  */
-function wcmcr_customize_one( $wp_customize ) {
+function dtg_customize_one( $wp_customize ) {
 	// SETTING.
-	$wp_customize->add_setting( 'wcmcr_phone_number',
+	$wp_customize->add_setting( 'dtg_phone_number',
 		array(
 			'default'    => '07890 123 456',
 			'capability' => 'manage_options',
 			'transport'  => 'postMessage',
-			'sanitize_callback' => 'wcmcr_validate_phone',
+			'sanitize_callback' => 'dtg_validate_phone',
 		)
 	);
 
 	// SECTION.
-	$wp_customize->add_section( 'wcmcr_section_contact',
+	$wp_customize->add_section( 'dtg_section_contact',
 		array(
 			'title'          => 'Contact Info',
-			'description'    => 'Section for WCMCR controls.',
+			'description'    => 'Section for DTG controls.',
 			'capability'     => 'manage_options',
 			'theme-supports' => '',
 			'priority'       => 10,
-			'panel'          => 'wcmcr_panel',
+			'panel'          => 'dtg_panel',
 		)
 	);
 
 	// PANEL.
-	$wp_customize->add_panel( 'wcmcr_panel',
+	$wp_customize->add_panel( 'dtg_panel',
 		array(
-			'title'          => 'WCMCR Panel',
-			'description'    => 'Panel for WCMCR.',
+			'title'          => 'DTG Panel',
+			'description'    => 'Panel for DTG.',
 			'capability'     => 'manage_options',
 			'theme-supports' => '',
 			'priority'       => 10,
@@ -73,11 +73,11 @@ function wcmcr_customize_one( $wp_customize ) {
 	$wp_customize->add_control(
 		new WP_Customize_Control(
 			$wp_customize,
-			'wcmcr_phone_number',
+			'dtg_phone_number',
 			array(
 				'label'    => 'Phone Number',
-				'section'  => 'wcmcr_section_contact',
-				'settings' => 'wcmcr_phone_number',
+				'section'  => 'dtg_section_contact',
+				'settings' => 'dtg_phone_number',
 				'type'     => 'text',
 				'priority' => 10,
 				'active_callback' => 'is_front_page',
@@ -88,15 +88,15 @@ function wcmcr_customize_one( $wp_customize ) {
 	// ADDITIONAL CONTROLS FOR DEMO IMAGES.
 
 }
-add_action( 'customize_register', 'wcmcr_customize_one' );
+add_action( 'customize_register', 'dtg_customize_one' );
 
 /**
  * Demo part two - title colour.
  * @param  object $wp_customize Customizer object.
  */
-function wcmcr_customize_two( $wp_customize ) {
+function dtg_customize_two( $wp_customize ) {
 	// SETTING.
-	$wp_customize->add_setting( 'wcmcr_title_colour',
+	$wp_customize->add_setting( 'dtg_title_colour',
 		array(
 			'default'    => '#000',
 			'capability' => 'manage_options',
@@ -106,13 +106,13 @@ function wcmcr_customize_two( $wp_customize ) {
 	);
 
 	// SECTION.
-	$wp_customize->add_section( 'wcmcr_section_colour',
+	$wp_customize->add_section( 'dtg_section_colour',
 		array(
 			'title'       => 'Colour Options',
-			'description' => 'Colour options for WCMCR.',
+			'description' => 'Colour options for DTG.',
 			'capability'  => 'manage_options',
 			'priority'    => 20,
-			'panel'       => 'wcmcr_panel',
+			'panel'       => 'dtg_panel',
 		)
 	);
 
@@ -120,24 +120,24 @@ function wcmcr_customize_two( $wp_customize ) {
 	$wp_customize->add_control(
 		new WP_Customize_Color_Control(
 			$wp_customize,
-			'wcmcr_title_colour',
+			'dtg_title_colour',
 			array(
 				'label'    => 'Title Colour',
-				'section'  => 'wcmcr_section_colour',
-				'settings' => 'wcmcr_title_colour',
+				'section'  => 'dtg_section_colour',
+				'settings' => 'dtg_title_colour',
 			)
 		)
 	);
 }
-add_action( 'customize_register', 'wcmcr_customize_two' );
+add_action( 'customize_register', 'dtg_customize_two' );
 
 /**
  * Demo part three - one I made earlier
  */
-function wcmcr_customize_three( $wp_customize ) {
+function dtg_customize_three( $wp_customize ) {
 
 	// SETTINGS.
-	$wp_customize->add_setting( 'wcmcr_logo',
+	$wp_customize->add_setting( 'dtg_logo',
 		array(
 			'default'    => '',
 			'capability' => 'manage_options',
@@ -145,7 +145,7 @@ function wcmcr_customize_three( $wp_customize ) {
 		)
 	);
 
-	$wp_customize->add_setting( 'wcmcr_heading_text',
+	$wp_customize->add_setting( 'dtg_heading_text',
 		array(
 			'default'    => '',
 			'capability' => 'manage_options',
@@ -153,7 +153,7 @@ function wcmcr_customize_three( $wp_customize ) {
 		)
 	);
 
-	$wp_customize->add_setting( 'wcmcr_paragraph_text',
+	$wp_customize->add_setting( 'dtg_paragraph_text',
 		array(
 			'default'    => '',
 			'capability' => 'manage_options',
@@ -161,7 +161,7 @@ function wcmcr_customize_three( $wp_customize ) {
 		)
 	);
 
-	$wp_customize->add_setting( 'wcmcr_sidebar',
+	$wp_customize->add_setting( 'dtg_sidebar',
 		array(
 			'default'    => '#ffffff',
 			'capability' => 'manage_options',
@@ -169,7 +169,7 @@ function wcmcr_customize_three( $wp_customize ) {
 		)
 	);
 
-	$wp_customize->add_setting( 'wcmcr_background',
+	$wp_customize->add_setting( 'dtg_background',
 		array(
 			'default'    => '#f1f1f1',
 			'capability' => 'manage_options',
@@ -178,12 +178,12 @@ function wcmcr_customize_three( $wp_customize ) {
 	);
 
 	// SECTION.
-	$wp_customize->add_section( 'wcmcr_section_crazy',
+	$wp_customize->add_section( 'dtg_section_crazy',
 		array(
 			'title'       => 'Something I Made Earlier',
 			'capability'  => 'manage_options',
 			'priority'    => 30,
-			'panel'       => 'wcmcr_panel',
+			'panel'       => 'dtg_panel',
 		)
 	);
 
@@ -191,11 +191,11 @@ function wcmcr_customize_three( $wp_customize ) {
 	$wp_customize->add_control(
 		new WP_Customize_Image_Control(
 			$wp_customize,
-			'wcmcr_logo',
+			'dtg_logo',
 			array(
 				'label'    => 'Site Logo',
-				'section'  => 'wcmcr_section_crazy',
-				'settings' => 'wcmcr_logo',
+				'section'  => 'dtg_section_crazy',
+				'settings' => 'dtg_logo',
 			)
 		)
 	);
@@ -203,12 +203,12 @@ function wcmcr_customize_three( $wp_customize ) {
 	$wp_customize->add_control(
 		new WP_Customize_Color_Control(
 			$wp_customize,
-			'wcmcr_foreground',
+			'dtg_foreground',
 			array(
 				'label'    => 'Sidebar Colour',
 				'description' => 'Try #FFDF00',
-				'section'  => 'wcmcr_section_crazy',
-				'settings' => 'wcmcr_sidebar',
+				'section'  => 'dtg_section_crazy',
+				'settings' => 'dtg_sidebar',
 			)
 		)
 	);
@@ -216,12 +216,12 @@ function wcmcr_customize_three( $wp_customize ) {
 	$wp_customize->add_control(
 		new WP_Customize_Color_Control(
 			$wp_customize,
-			'wcmcr_background',
+			'dtg_background',
 			array(
 				'label'    => 'Background Colour',
 				'description' => 'Try #F4CA16',
-				'section'  => 'wcmcr_section_crazy',
-				'settings' => 'wcmcr_background',
+				'section'  => 'dtg_section_crazy',
+				'settings' => 'dtg_background',
 			)
 		)
 	);
@@ -229,11 +229,11 @@ function wcmcr_customize_three( $wp_customize ) {
 	$wp_customize->add_control(
 		new WP_Customize_Control(
 			$wp_customize,
-			'wcmcr_heading_text',
+			'dtg_heading_text',
 			array(
 				'label'    => 'Heading Text',
-				'section'  => 'wcmcr_section_crazy',
-				'settings' => 'wcmcr_heading_text',
+				'section'  => 'dtg_section_crazy',
+				'settings' => 'dtg_heading_text',
 				'type'     => 'text',
 			)
 		)
@@ -242,14 +242,14 @@ function wcmcr_customize_three( $wp_customize ) {
 	$wp_customize->add_control(
 		new WP_Customize_Control(
 			$wp_customize,
-			'wcmcr_paragraph_text',
+			'dtg_paragraph_text',
 			array(
 				'label'    => 'Paragraph Text',
-				'section'  => 'wcmcr_section_crazy',
-				'settings' => 'wcmcr_paragraph_text',
+				'section'  => 'dtg_section_crazy',
+				'settings' => 'dtg_paragraph_text',
 				'type'     => 'textarea',
 			)
 		)
 	);
 }
-add_action( 'customize_register', 'wcmcr_customize_three' );
+add_action( 'customize_register', 'dtg_customize_three' );
