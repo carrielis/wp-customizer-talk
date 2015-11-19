@@ -491,6 +491,33 @@ $wp_customize->remove_control( 'background_color' );
 $wp_customize->remove_control( 'header_background_color' );
 $wp_customize->remove_control( 'sidebar_textcolor' );</code></pre>
             </section>
+            <!-- CUSTOM SETTING TYPES -->
+            <section>
+                <section>
+                    <h2>Custom Setting Types</h2>
+                    <p>Save certain settings to a different database table and handle the live previews your own way by first defining a custom setting <code>type</code>.</p>
+                    <pre><code class="php">$wp_customize->add_setting( 'dtg_custom_setting',
+    array(
+        'type'    => 'custom_type',
+        'default' => 'value,
+    )
+);</code></pre>
+                </section>
+                <section>
+                    <h2>Saving the Data</h2>
+                    <pre class="small"><code class="php">function dtg_update( $val, $setting ) {
+    // Save the $val for the $setting.
+}
+add_action( 'customize_update_custom_type', 'dtg_update' );</code></pre>
+                </section>
+                <section>
+                    <h2>Handling the Live Preview</h2>
+                    <pre class="small"><code class="php">function dtg_preview( $setting ) {
+    // Update the live preview for the $setting
+}
+add_action( 'customize_update_custom_type', 'dtg_preview' );</code></pre>
+                </section>
+            </section>
             <!-- JUST ONE MORE THING -->
             <section>
                 <h2>Just one more thing...</h2>
