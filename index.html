@@ -250,8 +250,8 @@ function dtg_validate( $data ) {
             <!-- MUST CREATE A CONTROL -->
             <section>
                 <h2>Notes about controls</h2>
-                <p>Panels and/or sections won't appear in the customizer unless you have added a control to a particular section.</p>
-                <p>Equally, controls won't appear unless they have been added to a section.</p>
+                <p class="fragment">Panels and/or sections won't appear in the customizer unless you have added a control to a particular section.</p>
+                <p class="fragment">Equally, controls won't appear unless they have been added to a section.</p>
             </section>
             <!-- ADDING CONTROLS TO EXISTING SECTIONS -->
             <section>
@@ -263,7 +263,7 @@ function dtg_validate( $data ) {
             'label'    => 'Introductory Text',
             'section'  => 'title_tagline', // BINGO!
             'settings' => 'dtg_intro_text',
-            'priorty'  => 10
+            'priority'  => 10
         )
 ) );</code></pre>
             </section>
@@ -321,6 +321,7 @@ $text = esc_html( get_theme_mod( 'dtg_welcome', 'Hello!' ) );</code></pre>
                     <p>Let's add a colour picker to change the colour of the site title.</p>
                 </section>
                 <section>
+                    <br/>
                     <pre><code class="php">function dtg_add_colour_picker( $wp_customize ) {
     $wp_customize->add_setting(
     'dtg_title_colour',
@@ -333,6 +334,7 @@ $text = esc_html( get_theme_mod( 'dtg_welcome', 'Hello!' ) );</code></pre>
 );</code></pre>
                 </section>
                 <section>
+                    <br/>
                     <pre><code class="php">$wp_customize->add_section(
     'dtg_section_colour',
     array(
@@ -345,6 +347,7 @@ $text = esc_html( get_theme_mod( 'dtg_welcome', 'Hello!' ) );</code></pre>
 );</code></pre>
                 </section>
                 <section>
+                    <br/>
                     <pre><code class="php">$wp_customize->add_control(
     new WP_Customize_Color_Control(
         $wp_customize,
@@ -371,6 +374,7 @@ add_action( 'customize_register', 'dtg_add_colour_picker' );</code></pre>
                     <p>In order to do this, we need to hook into the <strong><code>wp_head</code></strong> action using a function added to our <strong><code>customizer.php</code></strong> file.</p>
                 </section>
                 <section>
+                    <br/>
                     <pre class="small"><code class="php">function dtg_customize_css() {
   ? >
 
@@ -416,11 +420,12 @@ add_action( 'wp_head', 'dtg_customize_css' );</code></pre>
             <section>
                 <h2>Adding a JS handler</h2>
                 <p>Let's add a handler to enable live preview for our phone number setting.</p>
-                <pre class="small"><code class="php">wp.customize( 'dtg_phone_number', function( value ) {
+                <pre class="small"><code class="php">// WordPress makes a `wp` Javascript object available to us
+wp.customize( 'dtg_phone_number', function( value ) {
 
     // Update the HTML value of the phone number element.
     value.bind( function( newval ) {
-      $( '.phone-number' ).html( newval );
+      $( '.phone-number' ).text( newval );
     } );
 
 } );</code></pre>
