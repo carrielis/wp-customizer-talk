@@ -536,7 +536,7 @@ add_action( 'customize_update_custom_type', 'dtg_preview' );</code></pre>
 if ( class_exists( 'WP_Customize_Control' ) ) {
 
 class Fancy_Editor_Custom_Control extends WP_Customize_Control {
-    // Render the field in the customizer
+    // Render the field in the customizer UI.
     public function render_content() { ?&gt;
         &lt;label&gt;&lt;?php echo esc_html( $this-&gt;label ); ?&gt;
         &lt;?php $settings = array( 'textarea_name' =&gt; $this-&gt;id );
