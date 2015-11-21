@@ -529,6 +529,23 @@ add_action( 'customize_update_custom_type', 'dtg_update' );</code></pre>
 add_action( 'customize_update_custom_type', 'dtg_preview' );</code></pre>
                 </section>
             </section>
+            <!-- CUSTOM CONTROLS -->
+            <section>
+                <h2>Creating Custom Controls</h2>
+                <pre class="small"><code class="php">// Extend the base class if it exists
+if ( class_exists( 'WP_Customize_Control' ) ) {
+
+class Fancy_Editor_Custom_Control extends WP_Customize_Control {
+    // Render the field in the customizer
+    public function render_content() { ?&gt;
+        &lt;label&gt;&lt;?php echo esc_html( $this-&gt;label ); ?&gt;
+        &lt;?php $settings = array( 'textarea_name' =&gt; $this-&gt;id );
+
+        wp_editor( $this-&gt;value(), $this-&gt;id, $settings ); ?&gt;
+        &lt;/label&gt;
+    &lt;?php
+} }</code></pre>
+            </section>
             <section>
                 <h2>In The Future</h2>
                 <ul>
