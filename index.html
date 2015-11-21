@@ -547,6 +547,21 @@ class Fancy_Editor_Custom_Control extends WP_Customize_Control {
 } }</code></pre>
             </section>
             <section>
+                <h2>Adding a custom control</h2>
+                <pre class="small"><code class="php">// Use our new shiny class!
+$wp_customize->add_control( new Fancy_Editor_Custom_Control(
+        $wp_customize,
+        'dtg_wysiwyg_field',
+        array(
+            'label'    => 'Example WYSIWYG Field',
+            'section'  => 'dtg_example_section',
+            'settings' => 'dtg_wysiwyg_field',
+            'priority' => 10,
+        )
+    )
+);</code></pre>
+            </section>
+            <section>
                 <h2>In The Future</h2>
                 <ul>
                     <li class="fragment">
