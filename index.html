@@ -169,7 +169,7 @@ add_action( 'customize_register', 'dtg_customize' );</code></pre>
         'default'    => '07890 123 456',
         'capability' => 'manage_options',
         'transport'  => 'refresh', // or 'postMessage'
-        'sanitize_callback' => 'dtg_validate_phone'
+        'sanitize_callback' => 'dtg_validate_phone',
     )
 );</code></pre>
             </section>
@@ -211,8 +211,8 @@ function dtg_validate( $data ) {
         'description'    => 'Contact info for DTG',
         'capability'     => 'manage_options',
         'theme-supports' => '',
-        'priority'       => '10',
-        'panel'          => 'dtg_panel'
+        'priority'       => 10,
+        'panel'          => 'dtg_panel',
     )
 );</code></pre>
             </section>
@@ -226,7 +226,7 @@ function dtg_validate( $data ) {
         'description'    => 'Panel for DTG',
         'capability'     => 'manage_options',
         'theme-supports' => '',
-        'priority'       => '10'
+        'priority'       => 10,
     )
 );</code></pre>
             </section>
@@ -243,7 +243,7 @@ function dtg_validate( $data ) {
             'settings' => 'dtg_phone_number',
             'type'     => 'text',
             'priority' => 10,
-            'active_callback' => 'is_front_page' // NEW!
+            'active_callback' => 'is_front_page', // NEW!
         )
 ) );</code></pre>
             </section>
@@ -263,7 +263,7 @@ function dtg_validate( $data ) {
             'label'    => 'Introductory Text',
             'section'  => 'title_tagline', // BINGO!
             'settings' => 'dtg_intro_text',
-            'priority'  => 10
+            'priority'  => 10,
         )
 ) );</code></pre>
             </section>
@@ -328,8 +328,8 @@ $text = esc_html( get_theme_mod( 'dtg_welcome', 'Hello!' ) );</code></pre>
     array(
         'default'    => '#000',
         'capability' => 'manage_options',
-        'transport'  => 'postMessage'
-        'priority'   => 10
+        'transport'  => 'postMessage',
+        'priority'   => 10,
     )
 );</code></pre>
                 </section>
@@ -355,7 +355,7 @@ $text = esc_html( get_theme_mod( 'dtg_welcome', 'Hello!' ) );</code></pre>
         array(
             'label'    => 'Title Colour',
             'section'  => 'dtg_section_colour',
-            'settings' => 'dtg_title_colour'
+            'settings' => 'dtg_title_colour',
         )
     )
 );
@@ -399,7 +399,7 @@ add_action( 'wp_head', 'dtg_customize_css' );</code></pre>
         'default'    => '07890 123 456',
         'capability' => 'manage_options',
         'transport'  => 'postMessage', // BINGO!
-        'sanitize_callback' => 'dtg_validate'
+        'sanitize_callback' => 'dtg_validate',
     )
 );</code></pre>
             </section>
@@ -484,7 +484,7 @@ $wp_customize->get_panel( 'dtg_panel' )->description =
 'Stop! Panel Time!';
 
 $wp_customize->get_section( 'dtg_section' )->title =
-'DTG ROCKS!';
+'WordPress ROCKS!';
 
 $wp_customize->get_control( 'dtg_phone_number' )->label =
 'Telephone';</code></pre>
@@ -620,6 +620,11 @@ $wp_customize->add_control( new Fancy_Editor_Custom_Control(
                 <h4 style="margin-bottom: 0;"><strong><a href=" http://davetgreen.me/customizer-talk/ ">davetgreen.me/customizer-talk</strong></a></h4>
                 <br/>
                 <h4><strong><a href="https://github.com/davetgreen/wp-customizer-talk">github.com/davetgreen/wp-customizer-talk</strong></a></h4>
+            </section>
+            <!-- QUESTIONS? -->
+            <section>
+                <h1>QUESTIONS?</h1>
+                <h2><a href="https://twitter.com/davetgreen ">@davetgreen</a></h2>
             </section>
         </div>
         <!-- End of slides container -->
