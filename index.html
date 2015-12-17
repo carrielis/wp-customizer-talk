@@ -178,7 +178,7 @@ add_action( 'customize_register', 'dtg_customize' );</code></pre>
                 <h2>Validating Setting Data</h2>
                 <p>Here we use a regular expression to ensure our number setting contains only numbers and spaces: no letters or special characters.</p>
                 <pre><code class="php">// Add to the top/bottom of customizer.php.
-function dtg_validate( $data ) {
+function dtg_validate_phone( $data ) {
 
   $sanitized = preg_replace( '/[^0-9 ]+/', '', $data );
 
