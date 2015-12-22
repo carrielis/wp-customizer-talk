@@ -5,7 +5,7 @@
 
         // Update the HTML value of the phone number element.
         value.bind( function( newval ) {
-            $( '.phone-number' ).html( newval );
+            $( '.phone-number' ).text( newval );
         } );
 
     } );
@@ -35,7 +35,7 @@
 
     wp.customize( 'dtg_heading_text', function( value ) {
 
-        // Update all the heading tags.
+        // Update all the heading tags - extreme case!
         value.bind( function( newval ) {
             $( 'h1, h2, h3, h4, h5, h6' ).html( newval );
         } );
@@ -44,7 +44,7 @@
 
     wp.customize( 'dtg_paragraph_text', function( value ) {
 
-        // Update all the paragraph text.
+        // Update all the paragraph text - extreme case!
         value.bind( function( newval ) {
             $( 'p' ).html( newval );
         } );

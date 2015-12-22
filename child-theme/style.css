@@ -1,14 +1,14 @@
-                              /*
- Theme Name:   WordCamp MCR Demo
- Template:     twentyfifteen
- Text Domain:  twenty-fifteen-child
+            /**
+Theme Name:   WP Customizer API Talk Demo
+Template:     twentyfifteen
+Text Domain:  twenty-fifteen-child
 */
-                        
-                        .phone-number {
-                            font-size: 24px;
-                            font-weight: bold;
-                           }
-                           
-                           .logo {
-                               margin-bottom: 24px;
-                              }
+      
+      .logo {
+          margin-bottom: 24px;
+         }
+         
+         .phone-number {
+             font-size: 1.5em;
+             font-weight: bold;
+            }

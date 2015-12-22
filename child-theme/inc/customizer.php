@@ -1,11 +1,10 @@
 <?php
-
 /**
- * Customizer API.
+ * Functions relating to the Customizer API.
  */
 
 /**
- * Validation setting data
+ * Validation utlity function for use with setting data.
  * @param  string $data Setting data.
  * @return string       Validated setting data.
  */
@@ -17,25 +16,11 @@ function dtg_validate_phone( $data ) {
 }
 
 /**
- * Enqueue our customizer Javascriot
- */
-function dtg_customizer_js() {
-
-	wp_enqueue_script(
-		'dtg-customizer-js',
-		get_stylesheet_directory_uri() . '/js/customizer.js',
-		array( 'jquery','customize-preview' ),
-		false,
-		true // In the footer!
-	);
-}
-add_action( 'customize_preview_init', 'dtg_customizer_js' );
-
-/**
- * Demo part one - phone number.
+ * Demo part one - adding a phone number.
  * @param  object $wp_customize Customizer object.
  */
 function dtg_customize_one( $wp_customize ) {
+
 	// SETTING.
 	$wp_customize->add_setting( 'dtg_phone_number',
 		array(
@@ -62,7 +47,7 @@ function dtg_customize_one( $wp_customize ) {
 	$wp_customize->add_panel( 'dtg_panel',
 		array(
 			'title'          => 'DTG Panel',
-			'description'    => 'Panel for DTG.',
+			'description'    => 'Panel for DTG sections.',
 			'capability'     => 'manage_options',
 			'theme-supports' => '',
 			'priority'       => 10,
@@ -84,9 +69,6 @@ function dtg_customize_one( $wp_customize ) {
 			)
 		)
 	);
-
-	// ADDITIONAL CONTROLS FOR DEMO IMAGES.
-
 }
 add_action( 'customize_register', 'dtg_customize_one' );
 
@@ -95,6 +77,7 @@ add_action( 'customize_register', 'dtg_customize_one' );
  * @param  object $wp_customize Customizer object.
  */
 function dtg_customize_two( $wp_customize ) {
+
 	// SETTING.
 	$wp_customize->add_setting( 'dtg_title_colour',
 		array(
@@ -132,7 +115,7 @@ function dtg_customize_two( $wp_customize ) {
 add_action( 'customize_register', 'dtg_customize_two' );
 
 /**
- * Demo part three - one I made earlier
+ * Demo part three - "one I made earlier" WCMCR clone.
  */
 function dtg_customize_three( $wp_customize ) {
 
@@ -180,7 +163,7 @@ function dtg_customize_three( $wp_customize ) {
 	// SECTION.
 	$wp_customize->add_section( 'dtg_section_crazy',
 		array(
-			'title'       => 'Something I Made Earlier',
+			'title'       => 'One I Made Earlier',
 			'capability'  => 'manage_options',
 			'priority'    => 30,
 			'panel'       => 'dtg_panel',
@@ -206,7 +189,7 @@ function dtg_customize_three( $wp_customize ) {
 			'dtg_foreground',
 			array(
 				'label'    => 'Sidebar Colour',
-				'description' => 'Try #FFDF00',
+				'description' => 'Use #FFDF00',
 				'section'  => 'dtg_section_crazy',
 				'settings' => 'dtg_sidebar',
 			)
@@ -219,7 +202,7 @@ function dtg_customize_three( $wp_customize ) {
 			'dtg_background',
 			array(
 				'label'    => 'Background Colour',
-				'description' => 'Try #F4CA16',
+				'description' => 'Use #F4CA16',
 				'section'  => 'dtg_section_crazy',
 				'settings' => 'dtg_background',
 			)
@@ -253,3 +236,43 @@ function dtg_customize_three( $wp_customize ) {
 	);
 }
 add_action( 'customize_register', 'dtg_customize_three' );
+
+/**
+ * Enqueue our customizer Javascriot
+ */
+function dtg_customizer_js() {
+
+	wp_enqueue_script(
+		'dtg-customizer-js',
+		get_stylesheet_directory_uri() . '/js/customizer.js',
+		array( 'jquery','customize-preview' ),
+		false,
+		true // In the footer!
+	);
+}
+add_action( 'customize_preview_init', 'dtg_customizer_js' );
+
+/**
+ * Generate CSS using customizer settings data.
+ */
+function dtg_customize_css() {
+	?>
+		 <style type="text/css">
+			 .site-title a {
+			 	color: <?php echo esc_attr( get_theme_mod( 'dtg_title_colour' ) ); ?>;
+			 }
+
+			 html,
+			 body {
+			 	background-color: <?php echo esc_attr( get_theme_mod( 'dtg_background' ) ); ?>;
+			 }
+
+			 .sidebar {
+			 	background-color: <?php echo esc_attr( get_theme_mod( 'dtg_sidebar' ) ); ?>;
+			 }
+
+			 /** Repeat for every element/selector you're targeting **/
+		 </style>
+	<?php
+}
+add_action( 'wp_head', 'dtg_customize_css' );

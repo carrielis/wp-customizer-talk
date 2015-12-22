@@ -42,14 +42,16 @@
 					<?php endif;
 				?>
 
-				<p class="phone-number">
-					<?php
-					// Demo one.
-					esc_html_e( get_theme_mod( 'dtg_phone_number' ) );
-					?>
-				</p>
+				<?php // Add the phone number if it exists.
+				$phone = get_theme_mod( 'dtg_phone_number' );
 
-				<button class="secondary-toggle"><?php _e( 'Menu and widgets', 'twentyfifteen' ); ?></button>
+				if ( ! empty( $phone ) ) { ?>
+					<p class="phone-number">
+						<?php echo esc_html( $phone ); ?>
+					</p>
+				<?php } ?>
+
+				<button class="secondary-toggle"><?php esc_html_e( 'Menu and widgets', 'twentyfifteen' ); ?></button>
 			</div><!-- .site-branding -->
 		</header><!-- .site-header -->
 
