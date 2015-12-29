@@ -5,4 +5,4 @@ If you’re not already using the customizer to add custom ‘options’ into yo
 
 ***View these slides online on [my website](http://davetgreen.me/customizer-talk/)***
 
-***Video of this talk as presented at WordCamp Manchester can be found on [WordPress.tv](http://wordpress.tv/2015/12/17/dave-green-building-themes-wp-customizer/)***
+***A recording of this talk as presented at WordCamp Manchester can be found on [WordPress.tv](http://wordpress.tv/2015/12/17/dave-green-building-themes-wp-customizer/)***
