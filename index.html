@@ -67,19 +67,19 @@
                 <h2>A brief summary of the Customizer API</h2>
                 <ul>
                     <li class="fragment">
-                        <p>Since <strong>WordPress 3.4</strong> which was released in <strong>June 2012</strong></p>
+                        <p>Since <strong>WordPress 3.4</strong> which was released in <strong>June 2012</strong>.</p>
                     </li>
                     <li class="fragment">
-                        <p>Integrates with the existing <strong>WordPress Settings API</strong></p>
+                        <p>No external dependencies because it's <strong>built into core</strong>.</p>
                     </li>
                     <li class="fragment">
-                        <p>No external dependencies because it is <strong>built into core</strong></p>
+                        <p>Integrates with the existing <strong>WordPress Settings API</strong>.</p>
                     </li>
                     <li class="fragment">
-                        <p>Gives users <strong>instant feedback</strong> when they make changes</p>
+                        <p>Gives users <strong>instant feedback</strong> when they make changes.</p>
                     </li>
                     <li class="fragment">
-                        <p>Can be <strong>extended</strong> to add more customisation options</p>
+                        <p>Can be <strong>extended</strong> to add more customisation options.</p>
                     </li>
                 </ul>
             </section>
@@ -89,28 +89,27 @@
             </section>
             <!-- PREPARING THE THEME - STEPS -->
             <section>
-                <section>
-                    <h3>Preparing the theme - Step #1</h3>
-                    <p>Create a subfolder in your theme called <strong><code>inc</code></strong> if you don’t already have one. Now create a file in that folder called <strong><code>customizer.php</code></strong>.</p>
-                    <pre><code class="no-highlight">your-theme/
+                <h3>Preparing the theme - Step #1</h3>
+                <p>Create a subfolder in your theme called <strong><code>inc</code></strong> if you don’t already have one. Now create a file in that folder called <strong><code>customizer.php</code></strong>.</p>
+                <pre><code class="no-highlight">your-theme/
+
     inc/
       customizer.php
     js/
     functions.php
     index.php
     style.css</code></pre>
-                </section>
-                <section>
-                    <h3>Preparing the theme - Step #2</h3>
-                    <p>Open <strong><code>functions.php</code></strong> and add the relevant line of code to require the file you just created. Without it, your customizer code won't execute!</p>
-                    <pre class="small"><code class="php">// Child Theme
+            </section>
+            <section>
+                <h3>Preparing the theme - Step #2</h3>
+                <p>Open <strong><code>functions.php</code></strong> and add the relevant line of code to require the file you just created. Without it, your customizer code won't execute!</p>
+                <pre class="small"><code class="php">// Child Theme
 require get_stylesheet_directory() . '/inc/customizer.php';
 
 // Parent Theme
 require get_template_directory() . '/inc/customizer.php';
 
 // Rest of your functions file...</code></pre>
-                </section>
             </section>
             <!-- CUSTOMIZE REGISTER ACTION HOOK -->
             <section>
@@ -169,7 +168,8 @@ add_action( 'customize_register', 'dtg_customize' );</code></pre>
         'default'    => '07890 123 456',
         'capability' => 'manage_options',
         'transport'  => 'refresh', // or 'postMessage'
-        'sanitize_callback' => 'dtg_validate_phone',
+        'sanitize_callback' => 'dtg_sanitize_tel
+',
     )
 );</code></pre>
             </section>
@@ -178,11 +178,11 @@ add_action( 'customize_register', 'dtg_customize' );</code></pre>
                 <h2>Validating Setting Data</h2>
                 <p>Here we use a regular expression to ensure our number setting contains only numbers and spaces: no letters or special characters.</p>
                 <pre><code class="php">// Add to the top/bottom of customizer.php.
-function dtg_validate_phone( $data ) {
+function dtg_sanitize_tel( $data ) {
 
-  $sanitized = preg_replace( '/[^0-9 ]+/', '', $data );
+  $clean = preg_replace( '/[^0-9 ]+/', '', $data );
 
-  return $sanitized;
+  return $clean;
 }</code></pre>
             </section>
             <!-- THEME MOD VERSUS OPTION -->
@@ -190,13 +190,13 @@ function dtg_validate_phone( $data ) {
                 <h2>Theme_Mod versus Option</h2>
                 <div class="fragment" style="float: left; padding-right: 2%; text-align: left; width: 48%;">
                     <h3><strong>Theme_Mod</strong></h3>
-                    <p>Settings can only be used by that specific theme. <em>Recommended.</em></p>
+                    <p>Settings can only be used by that <em>specific</em> theme.</p>
                     <br/>
                     <p>All customizer settings are stored within a serialized array in a single option in the database.</p>
                 </div>
                 <div class="fragment" style="float: left; padding-left: 2%; text-align: left; width: 48%;">
                     <h3><strong>Option</strong></h3>
-                    <p>Settings can be used by absolutely any theme or plugin.</p>
+                    <p>Settings can be used by absolutely <em>any theme or plugin</em>.</p>
                     <br/>
                     <p>Each of the customizer settings are stored as a unique option in the database.</p>
                 </div>
@@ -420,7 +420,7 @@ add_action( 'wp_head', 'dtg_customize_css' );</code></pre>
             <section>
                 <h2>Adding a JS handler</h2>
                 <p>Let's add a handler to enable live preview for our phone number setting.</p>
-                <pre class="small"><code class="php">// WordPress makes a `wp` Javascript object available to us
+                <pre class="small"><code class="php">// WordPress makes a `wp` Javascript object available to us.
 wp.customize( 'dtg_phone_number', function( value ) {
 
     // Update the HTML value of the phone number element.
@@ -459,9 +459,9 @@ wp.customize( 'dtg_phone_number', function( value ) {
 add_action('customize_preview_init', 'dtg_customizer_js');</code></pre>
             </section>
             <!-- LET'S HAVE A LOOK -->
-            <section>
+            <section data-background="">
                 <h2>Let's have a look...</h2>
-                <video src="vid/DTG-Demo-1.mp4" autoplay autobuffer autoloop loop></video>
+                <video data-autoplay src="vid/DTG-Demo-1.mp4" autobuffer autoloop loop></video>
             </section>
             <!-- SUCCESS -->
             <section>
@@ -470,7 +470,7 @@ add_action('customize_preview_init', 'dtg_customizer_js');</code></pre>
             <!-- HERE'S ONE I MADE EARLIER -->
             <section>
                 <h2>Here's one I made earlier</h2>
-                <video src="vid/DTG-Demo-2.mp4" autoplay autobuffer autoloop loop></video>
+                <video data-autoplay src="vid/DTG-Demo-2.mp4" autobuffer autoloop loop></video>
             </section>
             <!-- MODIFYING SETTINGS, PANELS, SECTIONS AND CONTROLS -->
             <section>
@@ -534,17 +534,17 @@ add_action( 'customize_update_custom_type', 'dtg_preview' );</code></pre>
                 <h2>Creating Custom Controls</h2>
                 <pre class="small"><code class="php">// Extend the base class if it exists
 if ( class_exists( 'WP_Customize_Control' ) ) {
+    class Fancy_Custom_Control extends WP_Customize_Control {
 
-class Fancy_Editor_Custom_Control extends WP_Customize_Control {
-    // Render the field in the customizer UI.
-    public function render_content() { ?&gt;
-        &lt;label&gt;&lt;?php echo esc_html( $this-&gt;label ); ?&gt;
-        &lt;?php $settings = array( 'textarea_name' =&gt; $this-&gt;id );
+        public function render_content() { ?&gt;
+            &lt;label&gt;&lt;?php echo esc_html( $this-&gt;label ); ?&gt;
+            &lt;?php $s = array( 'textarea_name' =&gt; $this-&gt;id );
 
-        wp_editor( $this-&gt;value(), $this-&gt;id, $settings ); ?&gt;
-        &lt;/label&gt;
-    &lt;?php
-} }</code></pre>
+            wp_editor( $this-&gt;value(), $this-&gt;id, $s ); ?&gt;
+            &lt;/label&gt;
+        &lt;?php
+    }
+}</code></pre>
             </section>
             <section>
                 <h2>Adding a custom control</h2>
@@ -568,13 +568,16 @@ $wp_customize->add_control( new Fancy_Editor_Custom_Control(
                         <p>Customizer as a <strong>top level link</strong> in the dashboard.</p>
                     </li>
                     <li class="fragment">
-                        <p><strong>Improved performance</strong>: especially for the Javascript</p>
-                    </li>
-                    <li class="fragment">
                         <p>Better <strong>user experience</strong> for touch & mobile devices</p>
                     </li>
                     <li class="fragment">
+                        <p>Javascript overhaul for <strong>improved performance</strong>.</p>
+                    </li>
+                    <li class="fragment">
                         <p><strong>Responsive preview</strong> for mobile/tablet devices.</p>
+                    </li>
+                    <li class="fragment">
+                        <p>More robust admin with <strong>revisions and locking</strong>.</p>
                     </li>
                 </ul>
             </section>
