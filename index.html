@@ -168,8 +168,7 @@ add_action( 'customize_register', 'dtg_customize' );</code></pre>
         'default'    => '07890 123 456',
         'capability' => 'manage_options',
         'transport'  => 'refresh', // or 'postMessage'
-        'sanitize_callback' => 'dtg_sanitize_tel
-',
+        'sanitize_callback' => 'dtg_sanitize_tel',
     )
 );</code></pre>
             </section>
@@ -252,6 +251,7 @@ function dtg_sanitize_tel( $data ) {
                 <h2>Notes about controls</h2>
                 <p class="fragment">Panels and/or sections won't appear in the customizer unless you have added a control to a particular section.</p>
                 <p class="fragment">Equally, controls won't appear unless they have been added to a section.</p>
+                <img class="fragment" src="img/panel-section-control.jpg" alt="Panels, Sections and Controls" />
             </section>
             <!-- ADDING CONTROLS TO EXISTING SECTIONS -->
             <section>
@@ -325,13 +325,13 @@ $text = esc_html( get_theme_mod( 'dtg_welcome', 'Hello!' ) );</code></pre>
                     <pre><code class="php">function dtg_add_colour_picker( $wp_customize ) {
     $wp_customize->add_setting(
     'dtg_title_colour',
-    array(
-        'default'    => '#000',
-        'capability' => 'manage_options',
-        'transport'  => 'postMessage',
-        'priority'   => 10,
-    )
-);</code></pre>
+        array(
+            'default'    => '#000',
+            'capability' => 'manage_options',
+            'transport'  => 'postMessage',
+            'priority'   => 10,
+        )
+    );</code></pre>
                 </section>
                 <section>
                     <br/>
@@ -369,26 +369,24 @@ add_action( 'customize_register', 'dtg_add_colour_picker' );</code></pre>
             <!-- OUTPUT CSS -->
             <section>
                 <h2>Generating the new CSS</h2>
-                <section>
-                    <p>Now that we've chosen a new colour for the target elements, we need to ensure that we're generating the new CSS on the front-end.</p>
-                    <p>In order to do this, we need to hook into the <strong><code>wp_head</code></strong> action using a function added to our <strong><code>customizer.php</code></strong> file.</p>
-                </section>
-                <section>
-                    <br/>
-                    <pre class="small"><code class="php">function dtg_customize_css() {
-  ? >
+                <p>Now that we've chosen a new colour for the target elements, we need to ensure that we're generating the new CSS on the front-end.</p>
+                <p>In order to do this, we need to hook into the <strong><code>wp_head</code></strong> action using a function added to our <strong><code>customizer.php</code></strong> file.</p>
+            </section>
+            <section>
+                <h2>Generating the new CSS</h2>
+                <pre class="small"><code class="php">function dtg_customize_css() {
+  ?&gt;
 
-  <style type="text/css">
+  &lt;style type=&quot;text/css&quot;&gt;
     .site-title a {
-      color: <?php echo get_theme_mod('dtg_title_colour'); ?>;
+      color: &lt;?php echo get_theme_mod('dtg_title_colour'); ?&gt;;
     }
-    /** Repeat for every element/selector you're targeting. **/
-  </style>
+    /** Repeat for every selector you're targeting. **/
+  &lt;/style&gt;
 
-  < ?php
+  &lt;?php
 }
 add_action( 'wp_head', 'dtg_customize_css' );</code></pre>
-                </section>
             </section>
             <!-- LIVE PREVIEW WITH POSTMESSAGE -->
             <section>
@@ -423,7 +421,7 @@ add_action( 'wp_head', 'dtg_customize_css' );</code></pre>
                 <pre class="small"><code class="php">// WordPress makes a `wp` Javascript object available to us.
 wp.customize( 'dtg_phone_number', function( value ) {
 
-    // Update the HTML value of the phone number element.
+    // Update the phone number HTML when the value changes.
     value.bind( function( newval ) {
       $( '.phone-number' ).text( newval );
     } );
@@ -532,7 +530,7 @@ add_action( 'customize_update_custom_type', 'dtg_preview' );</code></pre>
             <!-- CUSTOM CONTROLS -->
             <section>
                 <h2>Creating Custom Controls</h2>
-                <pre class="small"><code class="php">// Extend the base class if it exists
+                <pre class="small"><code class="php">// Extend the base class if it exists.
 if ( class_exists( 'WP_Customize_Control' ) ) {
     class Fancy_Custom_Control extends WP_Customize_Control {
 
@@ -549,7 +547,8 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
             <section>
                 <h2>Adding a custom control</h2>
                 <pre class="small"><code class="php">// Use our new shiny class!
-$wp_customize->add_control( new Fancy_Editor_Custom_Control(
+$wp_customize->add_control(
+    new Fancy_Editor_Custom_Control(
         $wp_customize,
         'dtg_wysiwyg_field',
         array(
