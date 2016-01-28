@@ -41,6 +41,11 @@
             <section>
                 <h2>Building themes with<br/> the WP Customizer API</h2>
             </section>
+            <section>
+                <h2>YOU DON'T HAVE TO BE A</h2>
+                <h2><strong>THEME DEVELOPER</strong></h2>
+                <h2>TO USE THE CUSTOMIZER</h2>
+            </section>
             <!-- LESS LIKE MOGWAI -->
             <section data-background="">
                 <h3>You'll be less like this...</h3>
@@ -248,9 +253,9 @@ function dtg_sanitize_tel( $data ) {
             <!-- MUST CREATE A CONTROL -->
             <section>
                 <h2>Notes about controls</h2>
-                <p class="fragment">Panels and/or sections won't appear in the customizer unless you have added a control to a particular section.</p>
-                <p class="fragment">Equally, controls won't appear unless they have been added to a section.</p>
-                <img class="fragment" src="img/panel-section-control.jpg" alt="Panels, Sections and Controls" />
+                <p>Panels and/or sections won't appear in the customizer unless you have added a control to a particular section.</p>
+                <p>Equally, controls won't appear unless they have been added to a section.</p>
+                <img src="img/panel-section-control.jpg" alt="Panels, Sections and Controls" />
             </section>
             <!-- ADDING CONTROLS TO EXISTING SECTIONS -->
             <section>
@@ -558,6 +563,11 @@ $wp_customize->add_control(
         )
     )
 );</code></pre>
+            </section>
+            <section>
+                <h2>Live Preview on Multisite</h2>
+                <p>If you find that the customizer live preview panel is failing to load, uncheck option #4 in your <strong>Network Settings</strong> to overcome this issue.</p>
+                <img src="img/domain-mapping.jpg" alt="Domain Mapping" />
             </section>
             <section>
                 <h2>In The Future</h2>
